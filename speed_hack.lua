@@ -5,7 +5,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.08.06"
+ddd = "a21.08.08"
 pshare = ''
 umenu = true
 fasthome = true
@@ -14,6 +14,7 @@ echanged = false
 fastmax = 0
 crset = {enable = false, level = 0, map = ''}
 wrset = {enable = false, level = 0, map = ''}
+huiset = false
 psettings = {
   crspeed=3,
   crdelay=1500,
@@ -24,7 +25,10 @@ psettings = {
   fasthome=true,
   nodamage=true,
   ggspeed=false,
-  magics={}
+  showmenu = true,
+  smcrdelay = 1000,
+  smwrdelay = 1000,
+  portaldef = false
   }
   
 scriptv = {process ='com.tgc.sky.android',version=172143}
@@ -41,12 +45,12 @@ andro = gg.ANDROID_SDK_INT
 resettick = -1
 magictick = -1
 maxemote = ''
---less 0.5 max 2.0
+reached = ''
 
 pbase = 0x00
 prange = {a = 0,b = -1}
 pui = '9f9a41cd98bb22afe63b2ce2ede9b9eed9'
---200C
+rbootloader = gg.getRangesList('libBootloader.so')[1].start
 poffsets = {
   sival = -1096122630,
   ptoplayer = 0x182AC20,
@@ -93,7 +97,8 @@ poffsets = {
   rrace = 0xB22EAC,
   gcamera = 0xECA06C,
   ecrabs = 0x5A476C,
-  pcrabs = 0x1C850
+  pcrabs = 0x1C850,
+  uihook = 0x93E8E4
   }
 
 allmagics = {}
@@ -702,7 +707,7 @@ function tbltostr(tbl)
     local result = "{"
     for k, v in pairs(tbl) do
         if type(k) == "string" then
-            result = result.."\""..k.."\"".."="
+            result = result..k.."="
         end
         if type(v) == "table" then
             result = result..tbltostr(v)
@@ -720,22 +725,30 @@ function tbltostr(tbl)
 end
 
 function savedata()
-  local data = io.open('/sdcard/fuck.cfg','w+')
+  local data = io.open('/sdcard/fuck.cfg','w')
   data:write("psettings=" .. tbltostr(psettings))
   data:close()
 end
 
 function loadsave()
-  local data = io.open('/sdcard/fuck.cfg','w+')
-  data:seek('set',0)
-  local str = data:read('*a')
-  print(str)
-  if str == nil then 
-    data:write("psettings=" .. tbltostr(psettings))
-  else
-    pcall(load(str))
+  local data = io.open('/sdcard/fuck.cfg','r')
+  if data == nil then
+    savedata()
+    return;
   end
+  local str = data:read('*a')
   data:close()
+  if str == nil then 
+    savedata()
+  else
+    ert = pcall(load(str))
+    if not ert then
+      savedata()
+    end
+    if psettings.portaldef == nil then
+      psettings.portaldef = false
+    end
+  end
 end
 
 function boolling(boo)
@@ -780,10 +793,17 @@ function fbyte(str,ka,kb)
 end
 
 function fpbase()
-  rbootloader = gg.getRangesList('libBootloader.so')[1].start
   pbase = getadd(rbootloader + poffsets.ptoplayer,gg.TYPE_QWORD) + poffsets.ptopbase
   eoffsets.nentity = getadd(rbootloader + poffsets.ptoentity,gg.TYPE_QWORD) + poffsets.ptonentity
-  
+  xtest1 = getadd(pbase,gg.TYPE_DWORD)
+  xtest2 = getadd(eoffsets.nentity,gg.TYPE_DWORD)
+  if xtest1 < 0 and xtest > 600 then
+  gg.alert('Cannot find player base!\n1. Game loading is not completed\n2. restart script at home\n3. restart the game')
+  os.exit()
+  end
+  if xtest2 ~= 1099746509 then
+    gg.alert('Cannot find world base!\nsomething is wrong!\nsome features may not work')
+  end
   --methods for unexpected errors
   --07.30 no longer used
   --[[
@@ -837,15 +857,6 @@ function fpbase()
     return
   end
   ]]--
-  xtest1 = getadd(pbase,gg.TYPE_DWORD)
-  xtest2 = getadd(eoffsets.nentity,gg.TYPE_DWORD)
-  if xtest1 < 0 and xtest > 600 then
-  gg.alert('Cannot find player base!\n1. Did you select process Sky game?\n2. restart script at home\n3. restart the game')
-  os.exit()
-  end
-  if xtest2 ~= 1099746509 then
-    gg.alert('Cannot find world base!\nsomething is wrong!\nsome features may not work')
-  end
 end
 
 function vcheck()
@@ -861,23 +872,18 @@ function vcheck()
 end
 
 function startup()
-  --gg.addListItems({{address=gg.getRangesList('libBootloader.so')[1].start,flags=32,name='bootloader'}})
+  gg.addListItems({{address=gg.getRangesList('libBootloader.so')[1].start,flags=32,name='bootloader'}})
   loadsave()
   vcheck()
   nn = 0
   gg.clearResults()
   gg.setVisible(false)
   mm = gg.getRangesList('[anon:libc_malloc]')
-  for i,v in ipairs(mm) do
-    nn = mm[i]['end'] - mm[i].start
-      if(nn < 260998272 and nn > 251998272) then
-        prange.a = mm[i].start
-        prange.b = mm[i]['end']
-      end
-  end
+  prange.a = rbootloader - 0x1FFFFFFFF
+  prange.b = rbootloader
   fpbase()
   nn = 'Player : ' .. tostring(itoh(pbase)) .. ' ' .. getadd(pbase,gg.TYPE_DWORD) .. 'D'
-  --gg.toast(nn)
+  print(nn)
   gg.clearResults()
   ggrange(gg.REGION_C_DATA)
 gg.searchNumber("3.5", gg.TYPE_FLOAT)
@@ -1403,16 +1409,16 @@ function absorb()
   
   --gg.searchNumber('-842203136',4,false,nil,eoffsets.nentity,pbase)
   gg.searchNumber('h 00 00 60 40 00 00 00 00 00 00 80 BF 00 00 CD CD',gg.TYPE_BYTE,false,nil,eoffsets.nentity,pbase)
-  gg.refineNumber(96)
+  gg.refineNumber(-128)
   nn = {}
   mm = gg.getResults(gg.getResultCount())
   local tmp={}
-  vx,vy,vz = getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)
+  --vx,vy,vz = getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)
   for i,v in pairs(mm) do
     --table.insert(nn,{address = v.address - 0x6A,flags = gg.TYPE_FLOAT, value = vx})
     --table.insert(nn,{address = v.address - 0x6A+0x4,flags = gg.TYPE_FLOAT, value = vy})
     --table.insert(nn,{address = v.address - 0x6A+0x8,flags = gg.TYPE_FLOAT, value = vz})
-    table.insert(nn,{address = v.address - 0x2,flags = gg.TYPE_FLOAT, value = 9999.0})
+    table.insert(nn,{address = v.address - 0xA,flags = gg.TYPE_FLOAT, value = 99999})
   end
   gg.setValues(nn)
   --gg.addListItems(nn)
@@ -1420,6 +1426,23 @@ function absorb()
 end
 
 function portallegacy(str)
+  if eoffsets.world == 0x00 then
+    gg.clearResults()
+    ggrange(4)
+    gg.searchNumber(1487508559, gg.TYPE_DWORD,false,nil,eoffsets.nentity,pbase)
+    if gg.getResultsCount() ~= 0 then
+      nba = gg.getResults(gg.getResultsCount())
+      for w,c in ipairs(nba) do
+      	if getadd(c.address+0x4,gg.TYPE_DWORD) == 11 then
+      	  eoffsets.world = c.address + 0xC
+      	  break
+      	end
+      end
+    else
+    gg.toast('fail!')
+    return;
+    end
+  end
   gg.setVisible(false)
   hh = gg.getSpeed()
   setstr(eoffsets.world,24,str)
@@ -1439,6 +1462,10 @@ function portallegacy(str)
 end
 
 function portal(str)
+  if psettings.portaldef then
+    portallegacy(str)
+    return;
+  end
   gg.setVisible(false)
   xr1 = 0
   xr2 = 0
@@ -1453,7 +1480,7 @@ function portal(str)
     {address = xtr - 0x7C,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x90,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0xA4,flags=gg.TYPE_FLOAT,value=80000},
-    {address = xtr - 0x2C,flags=gg.TYPE_DWORD,value=24},
+    {address = xtr - 0x2C,flags=gg.TYPE_DWORD,value=28},
     {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x36D0}
   }
   gg.setValues(xar)
@@ -1830,12 +1857,14 @@ end
 
 function teleplayers()
   vh = gg.choice({
-    'Teleport to players',
-    'Collect players',
-    'Follow players',
-    'Spectate players',
-    'Hide all players',
-    'remove clothes cache'},nil,'')
+    '⏩Teleport to players',
+    '🚸Collect players',
+    '🏃Follow players',
+    '👁Spectate players',
+    '🚷Hide all players',
+    '💕Unlock friendly nodes',
+    '🔄Reset friendly nodes'
+  },nil,'')
   if vh == 1 then
     vsr = {}
     for i = 1, 7 do
@@ -1944,7 +1973,18 @@ function teleplayers()
     gg.setVisible(false)
   end
   if vh == 6 then
-    vhb = {}
+    gg.setVisible(false)
+    getfriendnode()
+    srd = {}
+    for k,v in ipairs(nodes) do
+      table.insert(srd,{address = v[2] - 0x14,flags = gg.TYPE_DWORD,value = 0})
+    end
+    gg.setValues(srd)
+    gg.toast('done')
+  end
+  if vh == 7 then
+    gg.setVisible(false)
+    resetfriendnode()
   end
 end
 
@@ -1968,7 +2008,7 @@ function wingfarm(aa,bb)
   for i = aa, bb do
     nyn = getmap()
     portal(cworld[i][2])
-    --gg.sleep(psettings.wrdelay)
+    gg.sleep(psettings.wrdelay)
     for w = 0,10 do
       gg.sleep(psettings.wrdelay)
       if nyn ~= getmap() then
@@ -2174,6 +2214,7 @@ function magicmenu()
     pmagic(6,-2,1)
   end
   if gf == 5 then
+    gg.setVisible(false)
     for i=1,9 do
       pmagic(i,0,1)
     end
@@ -2350,6 +2391,99 @@ if #eval == 0 then return; end
     gg.setValues(eval)
     return;
   end
+end
+
+function fkelders()
+  gg.clearResults()
+  ggrange(4)
+  gg.searchNumber('h 00 00 00 00 00 00 80 3F CD CD CD CD 00 00 00 00',gg.TYPE_BYTE,false,nil,prange.a,prange.b)
+  if gg.getResultsCount() == 0 then
+    gg.toast('fail!')
+    return;
+  else
+    mm = gg.getResults(gg.getResultsCount())
+    for k,v in ipairs(mm) do
+      v.address = v.address - 0x2
+      v.flags = gg.TYPE_FLOAT
+      v.value = 0
+    end
+    gg.setValues(mm)
+  end
+end
+
+function hookui()
+  vm = getmap()
+  if reached ~= vm then
+    reached = ''
+  end
+  cgh = gg.choice({
+    'Access far buttons',
+    'Pants',
+    'Mask',
+    'Hair',
+    'Cape',
+    'Prop',
+    'Hide/Show ui',
+    'Lock ui',
+    'Exit'
+  },nil,'')
+  vtarget = getadd(eoffsets.nentity + poffsets.uihook,gg.TYPE_QWORD) + 0x18
+  if cgh == 1 then
+    gg.setVisible(false)
+    if reached ~= getmap() then
+      reachtest()
+      reached = vm
+    end
+  end
+  if cgh == 2 then
+    setadd(vtarget + 0x3C + 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C - 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C,gg.TYPE_DWORD,0,false)
+    setadd(vtarget,gg.TYPE_DWORD,1,false)
+  end
+  if cgh == 3 then
+    setadd(vtarget + 0x3C + 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C - 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C,gg.TYPE_DWORD,3,false)
+    setadd(vtarget,gg.TYPE_DWORD,1,false)
+  end
+  if cgh == 4 then
+    setadd(vtarget + 0x3C + 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C - 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C,gg.TYPE_DWORD,2,false)
+    setadd(vtarget,gg.TYPE_DWORD,1,false)
+  end
+  if cgh == 5 then
+    setadd(vtarget + 0x3C + 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C - 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C,gg.TYPE_DWORD,1,false)
+    setadd(vtarget,gg.TYPE_DWORD,1,false)
+  end
+  if cgh == 6 then
+    setadd(vtarget + 0x3C + 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C - 0x4,gg.TYPE_DWORD,1,false)
+    setadd(vtarget + 0x3C,gg.TYPE_DWORD,8,false)
+    setadd(vtarget,gg.TYPE_DWORD,1,false)
+  end
+  if cgh == 7 then
+    if getadd(vtarget - 0xC208,gg.TYPE_DWORD) == 0 then
+      setadd(vtarget - 0xC208,gg.TYPE_DWORD,1,false)
+    else
+      setadd(vtarget - 0xC208,gg.TYPE_DWORD,0,false)
+    end
+  end
+  if cgh == 8 then
+    if isfreeze(vtarget - 0xC208) then
+      setadd(vtarget - 0xC208,gg.TYPE_DWORD,0,false)
+      else
+      setadd(vtarget - 0xC208,gg.TYPE_DWORD,0,true)
+    end
+  end
+  if cgh == 9 then
+    huiset = false
+    domenu()
+  end
+  gg.setVisible(false)
 end
 
 function getfriendnode()
@@ -2530,8 +2664,12 @@ function scsettings()
     'No damage wings : ' .. boolling(psettings.nodamage),
     'Fast return home : ' .. boolling(psettings.fasthome),
     'Use gg speedhack : ' .. boolling(psettings.ggspeed),
-    'SpeedHack when change map : ' .. boolling(psettings.portalspeed)
-  })
+    'SpeedHack when change map : ' .. boolling(psettings.portalspeed),
+    'Auto show up script menu : ' .. boolling(psettings.showmenu),
+    'Semi-auto candle runner delay : ' .. psettings.smcrdelay .. 'ms',
+    'Semi-auto wing runner delay : ' .. psettings.smwrdelay .. 'ms',
+    'Use legacy map changer : ' .. boolling(psettings.portaldef),
+  },nil,'')
   if xcs == nil then return; end
   if xcs == 1 then
     psettings.crspeed = inputnum(3)
@@ -2539,7 +2677,7 @@ function scsettings()
   if xcs == 2 then
     psettings.crdelay = inputnum(1500)
   end
-  if xcs == 2 then
+  if xcs == 3 then
     psettings.crabsorb = inputnum(0)
   end
   if xcs == 4 then
@@ -2559,6 +2697,18 @@ function scsettings()
   end
   if xcs == 9 then
     psettings.portalspeed = toggle(psettings.portalspeed)
+  end
+  if xcs == 10 then
+    psettings.showmenu = toggle(psettings.showmenu)
+  end
+  if xcs == 11 then
+    psettings.smcrdelay = inputnum(1000)
+  end
+  if xcs == 12 then
+    psettings.smwrdelay = inputnum(1000)
+  end
+  if xcs == 13 then
+    psettings.portaldef = toggle(psettings.portaldef)
   end
   savedata()
   scsettings()
@@ -2583,8 +2733,9 @@ function domenu()
       	,'🏧Set props'
         ,'🔄Auto run'
         ,'📽camera'
-        ,'♥️Modify friendly nodes'
         ,'🚻Players'
+        ,'🆖️Interface'
+        ,'📝Script settings'
         ,'⚠️Testing features'
       },nil,'')
       if m == 1 then
@@ -2699,6 +2850,22 @@ function domenu()
       	end
       	if x == 3 then 
       	   y={}
+      	   if eoffsets.world == 0x00 then
+      	      gg.clearResults()
+      	      ggrange(4)
+      	      gg.searchNumber(1487508559, gg.TYPE_DWORD,false,nil,eoffsets.nentity,pbase)
+      	      if gg.getResultsCount() ~= 0 then
+      	        nba = gg.getResults(gg.getResultsCount())
+      	        for w,c in ipairs(nba) do
+      	          if getadd(c.address+0x4,gg.TYPE_DWORD) == 11 then
+      	            eoffsets.world = c.address + 0xC
+      	            break
+      	          end
+      	        end
+      	        else
+      	          gg.toast('fail!')
+      	      end
+      	   end
         for i, v in ipairs(cworld) do
           table.insert(y,cworld[i][1])
         end
@@ -2712,7 +2879,8 @@ function domenu()
             end
             else
               setstr(eoffsets.world,24,cworld[r][2])
-            end
+           end
+          gg.setVisible(false)
          end
       	end
       	if x == 4 then
@@ -2932,11 +3100,12 @@ function domenu()
            ,'👻Ghost walk'
            ,'😱Magic cape'
            ,'🦀Throw crabs'
+           ,'📢Super shout'
          },nil,'')
        if x == nil then
          x = 0
        end
-       
+        gg.setVisible(false)
         if x == 1 then 
           adr = pbase + poffsets.gesture
           if isfreeze(adr) then
@@ -3047,7 +3216,17 @@ function domenu()
           gg.setVisible(false)
           collectcrab(2)
         end
-        gg.setVisible(false)
+        if x == 12 then
+          ghf = tonumber(inputnum(10))
+          if ghf ~= nil and ghf > 0 then
+          gg.setVisible(false)
+          for i = 0, ghf do
+            pmagic(7,1725047129,0)
+            gg.sleep(5)
+          end
+          end
+          pmagic(7,0,0)
+        end
       end
       
       if m == 7 then
@@ -3101,6 +3280,7 @@ function domenu()
            ,'Semi-Auto candle farm'
            ,'Semi-Auto wing farm'
            ,'Lock player candle'
+           ,'Unlock elders'
          },nil,'')
        if x == 1 then
          y=gg.choice({
@@ -3194,6 +3374,10 @@ function domenu()
             gg.toast('on')
           end
             
+        end
+        if x == 6 then
+          gg.setVisible(false)
+          fkelders()
         end
         
       end
@@ -3295,33 +3479,17 @@ function domenu()
         end
         
       end
-      if m == 12 then
-        getfriendnode()
-        y={}
-        for i, v in ipairs(nodes) do
-          table.insert(y,nodes[i][1])
-        end
-        z = gg.choice({'Unlock all','reset'},nil,'Change friendly nodes got patched lol')
-        
-         if z == 1 then
-            srd = {}
-            for k,v in ipairs(nodes) do
-              table.insert(srd,{address = v[2] - 0x14,flags = gg.TYPE_DWORD,value = 0})
-            end
-            gg.setValues(srd)
-         end
-        
-        if z == 2 then
-          resetfriendnode()
-        end
-         
-        gg.setVisible(false)
-        
-      end
-      if m==13 then
+      if m==12 then
         teleplayers()
       end
+      if m==13 then
+        hookui()
+        huiset = true
+      end
       if m == 14 then
+        scsettings()
+      end
+      if m == 15 then
         x=gg.choice({'Script settings','print offsets','print emotes','print items','print magics','reach','frags','pick crab','throw crab','krill to me'
         },nil,'⚠️This features are not stable')
         if x == 1 then
@@ -3451,7 +3619,7 @@ function crmenu()
   if jy == 6 then
     gg.setVisible(false)
     for k,v in ipairs(crarray) do
-      gg.sleep(1000)
+      gg.sleep(psettings.smcrdelay)
       if crset.level >= #crarray then
         gg.toast('done')
         break
@@ -3578,7 +3746,7 @@ function wrmenu()
   if jy == 5 then
     gg.setVisible(false)
     for k,v in ipairs(wrarray) do
-      gg.sleep(1000)
+      gg.sleep(psettings.smwrdelay)
       if wrset.level >= #wrarray then
         gg.toast('done')
         break
@@ -3729,12 +3897,14 @@ while true do
       wrmenu()
     elseif teleparr.enable then
       telemenu()
+    elseif huiset then
+      hookui()
     else
       domenu()
     end
   end
   if gg.isVisible(true) then
-    if umenu then
+    if umenu and psettings.showmenu then
       umenu = false
       if crset.enable then
         crmenu()
@@ -3742,6 +3912,8 @@ while true do
         wrmenu()
       elseif teleparr.enable then
         telemenu()
+      elseif huiset then
+        hookui()
       else
         domenu()
       end
