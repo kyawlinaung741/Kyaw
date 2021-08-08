@@ -14,9 +14,5 @@ Features
 - Camera Hook
 - And more
 
-Decryption packets with SSL sniffing worked well for gg
-But they fixed it now so I leaked mom0 script's data array and tosta
 
-Do you have some good codes?
-Tell me ExMachina#5142
-Credit to owner
+Credit to owner ExMachina#5142
