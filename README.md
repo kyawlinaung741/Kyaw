@@ -19,3 +19,4 @@ But they fixed it now so I leaked mom0 script's data array and tosta
 
 Do you have some good codes?
 Tell me ExMachina#5142
+Credit to owner
