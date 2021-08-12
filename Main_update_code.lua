@@ -4,8 +4,8 @@
 
 
 
-gg.toast('FuckChina Loaded')
-ddd = "a21.08.11"
+gg.toast('Modfly K.L.A credit To ExMachina#5142 ')
+ddd = "a21.08.12"
 pshare = ''
 umenu = true
 fasthome = true
