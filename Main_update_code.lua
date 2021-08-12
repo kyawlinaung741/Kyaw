@@ -983,12 +983,12 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 
 --gg.addListItems(candles)
 gg.clearResults()
-gg.toast('\n𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n' .. ddd .. ' by Kel')
+gg.toast('\nHAVE FUN\n' .. ddd .. ' BY KYAW')
   
 
 setadd(pbase + poffsets.pdamage,gg.TYPE_DWORD,0,true)
 getpatch()
-print('𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n')
+print('KYAWLINAUNG\n')
 end
 
 function itoh(int)
