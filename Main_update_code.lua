@@ -1,11 +1,5 @@
---That dead sky open source by Kel
---Do you have some good functions or codes?
---Tell me discord ExMachina#5142
-
-
-
-gg.toast('Modfly K.L.A credit To ExMachina#5142 ')
-ddd = "a21.08.12"
+gg.toast('FuckChina TGC Loaded')
+ddd = "b21.08.13"
 pshare = ''
 umenu = true
 fasthome = true
@@ -31,7 +25,7 @@ psettings = {
   portaldef = false
   }
   
-scriptv = {process ='com.tgc.sky.android',version=172143}
+scriptv = {process ='com.tgc.sky.android',version=174878}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
 crarray = {}
@@ -51,14 +45,12 @@ pbase = 0x00
 prange = {a = 0,b = -1}
 pui = '9f9a41cd98bb22afe63b2ce2ede9b9eed9'
 rbootloader = gg.getRangesList('libBootloader.so')[1].start
---Mportal = (h 00 00 00 00 00 00 00 00 8A 00 4C FF 00 00 00 01 00 00 00 00 00 00 00 00)
---Vcandles = [h 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 FF FF] or [h F7 F3 B4 40 D9 7B 94 3F 48 45 CA 40 00 00 80 3F] candlespace
 poffsets = {
   sival = -1096122630,
-  ptoplayer = 0x561CEC8,
-  ptoentity = 0x582CBE0,
-  ptopbase = 0x292E7D0,
-  ptonentity = 0x61ACEC,
+  ptoplayer = 0x1871A90,
+  ptoentity = 0x1AEAEB0,
+  ptopbase = 0x3DB2D8,
+  ptonentity = 0xED523C,
   ptonworld = 0x61AD0C,
   ptofps = 0x562E480,
   wlevel = 0x22400,
@@ -66,9 +58,9 @@ poffsets = {
   positY = 0x1C96C,
   positZ = 0x1C970,
   bheight = 0x00,
-  pose = 0x1FCB0,
-  pwing = 0x223CC,
-  ewing = 0x24008,
+  pose = 0x1FCC0,
+  pwing = 0x223DC,
+  ewing = 0x24018,
   eprop = 0x24034,
   famount = 0x25558,
   gesture = 0x2C4C4,
@@ -79,29 +71,27 @@ poffsets = {
   pshout = 0x22DE0,
   pdamage = 0x2244C,
   wwings = 0x4E069C,
-  wobjs = 0x8F8464,
-  wbtns = 0x90F478,
-  gohome = 0x23C08,
+  wobjs = 0x8F88D4,
+  wbtns = 0x91E178,
+  gohome = 0x23C18,
   elist = 0x1315BF3,
   gspeed = 0x14EB38C,
   eused = 0x2B48C,
   vcandles = 0x501B74,
   gchat = 0x93F234,
   ucandle = 0x595400,
-  fullmagic = 0x27B58,
-  mymagic = 0x23A08,
-  mportal = 0x17198,
+  fullmagic = 0x27B68,
+  mymagic = 0x23A18,
+  mportal = 0x17438,
   mcandles = 0x266F8,
   sglow = 0x21D00,
   wwind = 0x96833C,
-  pwalk = 0x2C6CAC8,
-  cfrags = 0x91A790,
-  rrace = 0xB22EAC,
-  gcamera = 0xECA06C,
-  ecrabs = 0x5A476C,
-  pcrabs = 0x1C850,
+  pwalk = 0x2D9FAE8,
+  cfrags = 0x91AC00,
+  gcamera = 0xF1A6EC,
+  ecrabs = 0x5A49CC,
   uihook = 0x94144C,
-  shoutscale = 0x25588
+  shoutscale = 0x255A8
   }
 
 allmagics = {}
@@ -209,11 +199,18 @@ mid = {
  {'️🌠Red tail',-1304862813,0},
  {'️🌠Yellow tail',-1354381164,0},
  {'️🌠Rainbow trail',147016038,0},
- {'🆕Fox',2237536272,0},
- {'🆕Pants Sword',3799734077,0},
- {'🆕Scarf Cape',2207305370,1},
- {'🆕Asteroid Jacket',1402240423,1},
- {'Bunny',3446227585,0},
+ {'Fox',2237536272,0},
+ {'Pants Sword',3799734077,0},
+ {'Scarf Cape',2207305370,1},
+ {'Asteroid Jacket',1402240423,1},
+ {'🆕️Chair Wood',3136256372,0},
+ {'🆕️Chair Cloth',472595010,0},
+ {'🆕️Chair Pipe',2428135093,0},
+{'🆕️Hair Pin',4123817368,0},
+{'🆕️Brazier 2',160072902,0},
+{'🆕️Summer Umbrella',2878211958,0},
+{'🆕️Summer Hat',2052387583,2},
+{'🆕️Recliner',2875484078,0},
  {'❌none',0,0}
 };
 windwallset = {
@@ -405,6 +402,8 @@ pid = {
        {-1723880395,'Fox'},
        {-994414187,'Birthday flag'},
        {1638144370,'Ocarina'},
+       {-2058340788,'Yellow Umbrella'},
+       {1480625729,'Double Chair'},
        {2035109393,"Nothing"}
 }
 
@@ -712,21 +711,20 @@ function fbyte(str,ka,kb)
 end
 
 function fpbase()
-  --[[
   pbase = getadd(rbootloader + poffsets.ptoplayer,gg.TYPE_QWORD) + poffsets.ptopbase
   eoffsets.nentity = getadd(rbootloader + poffsets.ptoentity,gg.TYPE_QWORD) + poffsets.ptonentity
   xtest1 = getadd(pbase,gg.TYPE_DWORD)
   xtest2 = getadd(eoffsets.nentity,gg.TYPE_DWORD)
-  if xtest1 < 0 and xtest > 600 then
+  if xtest1 < 0 and getadd(pbase + 0x10,gg.TYPE_DWORD) ~= 371 then
   gg.alert('Cannot find player base!\n1. Game loading is not completed\n2. restart script at home\n3. restart the game')
   os.exit()
   end
   if xtest2 ~= 1099746509 then
     gg.alert('Cannot find world base!\nsomething is wrong!\nsome features may not work')
   end
-  ]]--
   --methods for unexpected errors
   --07.30 no longer used
+  --[[
   gg.clearResults()
   nn = {}
   mm = {}
@@ -754,14 +752,15 @@ function fpbase()
     pbase = nn[1].address - 0x58
     return
   end
+  ]]--
 end
 
 function vcheck()
-  if gameinfo.versionCode < scriptv.version then
-    gg.alert('[Error] Game version mismatch! \ngame : ' .. gameinfo.versionCode .. '\nscript : ' .. scriptv.version)
+  if tonumber(gameinfo.versionCode) < scriptv.version then
+    gg.alert('[Error] Game version mismatch! \ngame : ' .. tonumber(gameinfo.versionCode) .. '\nscript : ' .. scriptv.version)
   end
-  if gameinfo.versionCode < scriptv.version then
-    gg.alert('[Error] Script needs update! \ngame : ' .. gameinfo.versionCode .. '\nscript : ' .. scriptv.version)
+  if tonumber(gameinfo.versionCode) > scriptv.version then
+    gg.alert('[Error] Script needs update! \ngame : ' .. tonumber(gameinfo.versionCode) .. '\nscript : ' .. scriptv.version)
   end
   if gameinfo.packageName ~= scriptv.process then
     gg.alert('[Error] You selected wrong process!\ngame : ' .. gameinfo.packageName)
@@ -949,13 +948,12 @@ end
 if eoffsets.world == 0x00 then gg.toast('err') end
 gg.addListItems(gg.getValues({{address = eoffsets.world, flags = 4}}))
 --ggrange(4)
-]]--
 
 gg.clearResults()
 gg.searchNumber(1099746509,4,false,nil,prange.a,prange.b)
 nn = 0x00
 eoffsets.nentity = gg.getResults(gg.getResultCount())[1].address
-
+]]--
 poffsets.elist = eoffsets.nentity - poffsets.elist
 nn = eoffsets.nentity + 0x1D4
   for i=1,450 do
@@ -983,12 +981,12 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 
 --gg.addListItems(candles)
 gg.clearResults()
-gg.toast('\nHAVE FUN\n' .. ddd .. ' BY KYAW')
+gg.toast('\n𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n' .. ddd .. ' by Kel')
   
 
 setadd(pbase + poffsets.pdamage,gg.TYPE_DWORD,0,true)
 getpatch()
-print('KYAWLINAUNG\n')
+print('𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n')
 end
 
 function itoh(int)
@@ -1079,6 +1077,18 @@ function upemote()
   gg.toast('done : ' .. maxemote)
 end
 
+function getcoord(boo)
+  if boo then
+    return {getadd(pbase + poffsets.positX,gg.TYPE_FLOAT)
+    ,getadd(pbase + poffsets.positY,gg.TYPE_FLOAT)
+    ,getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+  else
+    return {x=getadd(pbase + poffsets.positX,gg.TYPE_FLOAT)
+    ,y=getadd(pbase + poffsets.positY,gg.TYPE_FLOAT)
+    ,z=getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+  end
+end
+
 function ggrange(vr)
   if andro < 30 then
     --gg.setRanges(vr)
@@ -1134,7 +1144,7 @@ function getemote()
   end
   emotelist = {}
   for i = 0, 128 do
-    xd = poffsets.elist + (0x100 * i)
+    xd = poffsets.elist + (0xF0 * i)
     if getadd(xd,gg.TYPE_BYTE) < 1 then
       break
     end
@@ -1211,9 +1221,7 @@ function absflower()
   tmp = {}
   tup = {}
   kj = 0
-  mposit = {getadd(pbase + poffsets.positX,gg.TYPE_FLOAT)
-    ,getadd(pbase + poffsets.positY,gg.TYPE_FLOAT)
-    ,getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+  mposit = getcoord(true)
   for i = 0,150 do
     jj = eoffsets.nentity + poffsets.wobjs + i*0x210
     if getadd(jj + 0xC,gg.TYPE_FLOAT) == 1 then
@@ -1330,8 +1338,10 @@ function portal(str)
   xr2 = 0
   xar = {}
   xtr = eoffsets.nentity - poffsets.mportal
+  mgc = getcoord(true)
   setstr(xtr + 0x36D0,24,str)
   setstr(xtr - 0x1B,8,'Clear')
+  setadd(xtr + 0x372C,gg.TYPE_DWORD,string.len(str),false)
   xar = {
     --{address = xtr + 0x372C,flags=gg.TYPE_DWORD,value=11},
     {address = xtr - 0x34,flags=gg.TYPE_QWORD,value=49},
@@ -1340,11 +1350,17 @@ function portal(str)
     {address = xtr - 0x90,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0xA4,flags=gg.TYPE_FLOAT,value=80000},
     {address = xtr - 0x2C,flags=gg.TYPE_DWORD,value=28},
-    {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x36D0}
+    {address = xtr - 0x24,flags=gg.TYPE_QWORD,value=xtr + 0x36D0},
+    {address = xtr + 0x372C,flags = gg.TYPE_DWORD,value = string.len(str)},
+    --{address = xtr - 0x74,flags = gg.TYPE_FLOAT,value = mgc[1]},
+    --{address = xtr - 0x74 + 0x4,flags = gg.TYPE_FLOAT,value = mgc[2]},
+    --{address = xtr - 0x74 + 0x8,flags = gg.TYPE_FLOAT,value = mgc[3]},
+    {address = xtr,flags = gg.TYPE_DWORD,value = 1}
   }
   gg.setValues(xar)
-  setadd(xtr + 0x372C,gg.TYPE_DWORD,string.len(str),false)
-  setadd(xtr,gg.TYPE_DWORD,1,false)
+  --setadd(xtr + 0x372C,gg.TYPE_DWORD,string.len(str),false)
+  
+  --setadd(xtr,gg.TYPE_DWORD,1,false)
   if psettings.portalspeed then
     gamespeed(8)
     gg.sleep(1000)
@@ -1436,9 +1452,10 @@ function setposit(mx,my,mz)
 end
 
 function getpos()
- px = getadd(pbase + poffsets.positX,gg.TYPE_FLOAT)
- py = getadd(pbase + poffsets.positY,gg.TYPE_FLOAT)
- pz = getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)
+  pmg = getcoord(true)
+ px = pmg[1]
+ py = pmg[2]
+ pz = pmg[3]
 --print(px,py,pz)
 gg.toast(tostring(px) .. " / " .. tostring(py) .. " / " .. tostring(pz))
 end
@@ -1597,7 +1614,6 @@ function dorace()
       gg.sleep(psettings.crdelay)
     end
     gamespeed(psettings.crspeed)
-    setadd(eoffsets.nentity + poffsets.rrace,gg.TYPE_DWORD,1,false)
     portal('SunsetEnd')
     gg.sleep(psettings.crdelay)
     abslight()
@@ -1703,6 +1719,7 @@ function htrigger()
     if getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT) == 1 or fastmax > 12 then
       gamespeed(1)
       fastvalue = false
+      fastmax = 0
     end
   else
     if getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT) ~= 1 then
@@ -1727,18 +1744,18 @@ function teleplayers()
   if vh == 1 then
     vsr = {}
     for i = 1, 7 do
-      ght=pbase + poffsets.positX + (i * 0xFD70)
+      ght=pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(ght,gg.TYPE_FLOAT) == 0 then
         table.insert(vsr,'Empty')
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = {x=getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),y=getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),z=getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+        bp = getcoord(false)
         table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
     nra = gg.choice(vsr,nil,'')
     if nra == nil then return; end
-    hadd = pbase + poffsets.positX + (nra * 0xFD70)
+    hadd = pbase + poffsets.positX + (nra * 0xFDC0)
     hpos = {getadd(hadd,gg.TYPE_FLOAT),getadd(hadd + 0x4,gg.TYPE_FLOAT),getadd(hadd + 0x8,gg.TYPE_FLOAT)}
     if hpos[1] ~= 0 and hpos[2] ~= 0 then
       setposit(hpos[1],hpos[2],hpos[3])
@@ -1752,9 +1769,9 @@ function teleplayers()
     teleparr.enable = true
     gg.setVisible(false)
     xde = {}
-    mpos = {getadd(pbase + poffsets.positX,gg.TYPE_FLOAT), getadd(pbase + poffsets.positY,gg.TYPE_FLOAT), getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+    mpos = getcoord(true)
     for i=1, 7 do
-      xda = pbase + poffsets.positX + (i * 0xFD70)
+      xda = pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(xda,gg.TYPE_FLOAT) ~= 0 then
         table.insert(xde,{address=xda,flags=gg.TYPE_FLOAT,value=mpos[1] + i/2 - 1.5,freeze=true})
         table.insert(xde,{address=xda+(0x4),flags=gg.TYPE_FLOAT,value=mpos[2],freeze=true})
@@ -1770,18 +1787,18 @@ function teleplayers()
   if vh == 3 then
     vsr = {}
     for i = 1, 7 do
-      ght=pbase + poffsets.positX + (i * 0xFD70)
+      ght=pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(ght,gg.TYPE_FLOAT) == 0 then
         table.insert(vsr,'Empty')
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = {x=getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),y=getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),z=getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+        bp = getcoord(false)
         table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
     nra = gg.choice(vsr,nil,'')
     if nra == nil then return; end
-    hadd = pbase + poffsets.positX + (nra * 0xFD70)
+    hadd = pbase + poffsets.positX + (nra * 0xFDC0)
     hpos = {getadd(hadd,gg.TYPE_FLOAT),getadd(hadd + 0x4,gg.TYPE_FLOAT),getadd(hadd + 0x8,gg.TYPE_FLOAT)}
     if hpos[1] ~= 0 and hpos[2] ~= 0 then
       teleparr.follow = true
@@ -1801,18 +1818,18 @@ function teleplayers()
       
     vsr = {}
     for i = 1, 7 do
-      ght=pbase + poffsets.positX + (i * 0xFD70)
+      ght=pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(ght,gg.TYPE_FLOAT) == 0 then
         table.insert(vsr,'Empty')
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
-        bp = {x=getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),y=getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),z=getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+        bp = getcoord(false)
         table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
     nra = gg.choice(vsr,nil,'')
     if nra == nil then return; end
-    hadd = pbase + poffsets.positX + (nra * 0xFD70)
+    hadd = pbase + poffsets.positX + (nra * 0xFDC0)
     hpos = {getadd(hadd,gg.TYPE_FLOAT),getadd(hadd + 0x4,gg.TYPE_FLOAT),getadd(hadd + 0x8,gg.TYPE_FLOAT)}
     if hpos[1] ~= 0 and hpos[2] ~= 0 then
       teleparr.spec = true
@@ -1827,7 +1844,7 @@ function teleplayers()
     teleparr.enable = true
     teleparr.hide = true
     for i = 1, 7 do
-      setadd(pbase + poffsets.positY + (i * 0xFD70),gg.TYPE_FLOAT,-999,true)
+      setadd(pbase + poffsets.positY + (i * 0xFDC0),gg.TYPE_FLOAT,-999,true)
     end
     gg.setVisible(false)
   end
@@ -2134,7 +2151,7 @@ function collectcrab(uy)
   frz = true
   eval = {}
   rpoint = eoffsets.nentity - poffsets.ecrabs
-  mpoint = {getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+  mpoint = getcoord(true)
   if uy == 0 then
     for i=0,50 do
     evalid = getadd(rpoint + (0x640*i)+0x30,gg.TYPE_FLOAT)
@@ -2163,7 +2180,7 @@ if #eval == 0 then return; end
     if evalid == 0 then
       break
     end
-    setadd(pbase + poffsets.pcrabs,gg.TYPE_QWORD,rpoint-0x38,false)
+    --setadd(pbase + poffsets.pcrabs,gg.TYPE_QWORD,rpoint-0x38,false)
     setadd(rpoint + (0x640*i)+0x5AC,gg.TYPE_DWORD,41249,false)
     setadd(rpoint + (0x640*i)+0x5AC-0x4,gg.TYPE_DWORD,41249,false)
     end
@@ -2173,7 +2190,7 @@ if #eval == 0 then return; end
     if evalid == 0 then
       break
     end
-    setadd(pbase + poffsets.pcrabs,gg.TYPE_QWORD,0,false)
+    --setadd(pbase + poffsets.pcrabs,gg.TYPE_QWORD,0,false)
     setadd(rpoint + (0x640*i)+0x5AC,gg.TYPE_DWORD,0,false)
     end
     return;
@@ -2216,7 +2233,7 @@ function collectkrill(uy)
   frz = true
   eval = {}
   rpoint = eoffsets.nentity - poffsets.ecrabs - 0xC170
-  mpoint = {getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}
+  mpoint = getcoord(true)
   if uy == 0 then
     for i=0,50 do
     evalid = getadd(rpoint + (0x640*i)+0x30,gg.TYPE_FLOAT)
@@ -2328,17 +2345,17 @@ function hookui()
     setadd(vtarget,gg.TYPE_DWORD,1,false)
   end
   if cgh == 7 then
-    if getadd(vtarget - 0xC208,gg.TYPE_DWORD) == 0 then
-      setadd(vtarget - 0xC208,gg.TYPE_DWORD,1,false)
+    if getadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD) == 0 then
+      setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,1,false)
     else
-      setadd(vtarget - 0xC208,gg.TYPE_DWORD,0,false)
+      setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,0,false)
     end
   end
   if cgh == 8 then
-    if isfreeze(vtarget - 0xC208) then
-      setadd(vtarget - 0xC208,gg.TYPE_DWORD,0,false)
+    if isfreeze(vtarget - 0xC208 + 0x30) then
+      setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,0,false)
       else
-      setadd(vtarget - 0xC208,gg.TYPE_DWORD,0,true)
+      setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,0,true)
     end
   end
   if cgh == 9 then
@@ -3366,12 +3383,11 @@ function domenu()
         x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','reach','frags','pick crab','throw crab','krill to me'
         },nil,'⚠️This features are not stable')
         if x == 1 then
-          gg.setVisible(false)
-          gg.sleep(1000)
-          if gg.getResultsCount() == 0 then
-            gg.searchNumber(1,gg.TYPE_DWORD,false,nil,prange.a,prange.b)
-            else
-            gg.refineNumber(1)
+          xgd = gg.getResults(gg.getResultsCount())
+          for k,v in ipairs(xgd) do
+            if getadd(v.address + 0x50,gg.TYPE_DWORD) == 30 and getadd(v.address + 0x50 + 0x50,gg.TYPE_DWORD) == 31 and getadd(v.address + 0x50+ 0x50 + 0x50,gg.TYPE_DWORD) == 32 then
+              gg.addListItems({v})
+            end
           end
         end
         if x == 2 then
@@ -3421,7 +3437,7 @@ function crmenu()
   vhq = gg.toast
   --gg.toast(#crlist)
   if #crarray == 0 then
-    vhq(fbyte(pui,poffsets.sival,poffsets.rrace))
+    --vhq(fbyte(pui,poffsets.sival,poffsets.rrace))
     crset.map = hq
     crset.level = 0
     for k,v in ipairs(crlist) do
@@ -3661,9 +3677,9 @@ function telemenu()
   if xh == 2 then
       gg.setVisible(false)
     xde = {}
-    mpos = {getadd(pbase + poffsets.positX,gg.TYPE_FLOAT), getadd(pbase + poffsets.positY,gg.TYPE_FLOAT), getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
+    mpos = getcoord(true)
     for i=1, 7 do
-      xda = pbase + poffsets.positX + (i * 0xFD70)
+      xda = pbase + poffsets.positX + (i * 0xFDC0)
       for d=0,2 do
         table.insert(xde,{address=xda+(d*0x4),flags=gg.TYPE_FLOAT})
       end
@@ -3694,7 +3710,7 @@ function teleloop()
     xde = {}
     mpos = {getadd(pbase + poffsets.positX,gg.TYPE_FLOAT), getadd(pbase + poffsets.positY,gg.TYPE_FLOAT), getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT)}
     for i=1, 7 do
-      xda = pbase + poffsets.positX + (i * 0xFD70)
+      xda = pbase + poffsets.positX + (i * 0xFDC0)
       if getadd(xda,gg.TYPE_FLOAT) ~= 0 then
         for d=0,2 do
           table.insert(xde,{address=xda+(d*0x4),flags=gg.TYPE_FLOAT,value=mpos[d+1] + i,freeze=true})
@@ -3709,7 +3725,7 @@ function teleloop()
   end
   ]]--
   if teleparr.follow then
-    xda = pbase + poffsets.positX + (teleparr.arr * 0xFD70)
+    xda = pbase + poffsets.positX + (teleparr.arr * 0xFDC0)
     tx,ty,tz = getadd(xda,gg.TYPE_FLOAT), getadd(xda + 0x4,gg.TYPE_FLOAT), getadd(xda + 0x8,gg.TYPE_FLOAT)
     if tx ~= 0 then
       setposit(tx,ty+1,tz)
@@ -3723,7 +3739,7 @@ function teleloop()
     return;
   end
   if teleparr.spec then
-    xda = pbase + poffsets.positX + (teleparr.arr * 0xFD70)
+    xda = pbase + poffsets.positX + (teleparr.arr * 0xFDC0)
     tx,ty,tz = getadd(xda,gg.TYPE_FLOAT), getadd(xda + 0x4,gg.TYPE_FLOAT), getadd(xda + 0x8,gg.TYPE_FLOAT)
     if tx ~= 0 then
       xq = {}
@@ -3752,7 +3768,7 @@ while true do
     mtrigger()
   end
   if fasthome and teleparr.enable == false then
-    --htrigger()
+    htrigger()
   end
   if resettick > -1 then
     resettick = resettick - 1 
