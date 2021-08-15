@@ -4,7 +4,7 @@
 
 
 
-gg.toast('FuckChina Loaded')
+gg.toast('FuckChina TGC Loaded')
 ddd = "c21.08.15"
 pshare = ''
 umenu = true
@@ -987,7 +987,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by ExMachina')
+ setstr(nn,27,'by K.L.A')
  end
  ggrange(4)
  --[[
