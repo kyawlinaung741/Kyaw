@@ -4,8 +4,8 @@
 
 
 
-gg.toast('FuckChina TGC Loaded')
-ddd = "b21.08.14"
+gg.toast('FuckChina Loaded')
+ddd = "c21.08.15"
 pshare = ''
 umenu = true
 fasthome = true
@@ -96,7 +96,8 @@ poffsets = {
   gcamera = 0xF1A6EC,
   ecrabs = 0x5A49CC,
   uihook = 0x94144C,
-  shoutscale = 0x255A8
+  shoutscale = 0x255A8,
+  daily = 0x1303A24
   }
 
 allmagics = {}
@@ -799,8 +800,8 @@ nn = {}
 mm = gg.getResults(1)
 if gg.getResultsCount() ~= 0 then
   eoffsets.sspeed = mm[1].address
-  eoffsets.cspeed = mm[1].address - 0x335FC
-  eoffsets.cloud = mm[1].address - 0x33600
+  eoffsets.cspeed = mm[1].address - 0x33CE4
+  eoffsets.cloud = mm[1].address - 0x33CE8
   eoffsets.glight = mm[1].address - 0x1BDBC
   eoffsets.wforce = mm[1].address + 0x530
   eoffsets.jforce = mm[1].address + 0x638
@@ -978,6 +979,17 @@ mm = {}
  flowers = gg.getValues(mm)
  
  eoffsets.nworld = getadd(eoffsets.nentity - poffsets.ptonworld,gg.TYPE_QWORD)
+ 
+ nn = 0x00
+ gg.clearResults()
+ ggrange(gg.REGION_CODE_APP)
+ gg.searchNumber('h 72 74 5F 63 68 61 74 5F 74 65 78 74 5F 65 6E 74 72 79 5F 70')
+ if gg.getResultsCount() > 3 then
+ nn = gg.getResults(5)[4].address
+ gg.clearResults()
+ setstr(nn,27,'by ExMachina')
+ end
+ ggrange(4)
  --[[
  nn = {}
  mm = {}
@@ -2069,6 +2081,31 @@ function modmagic(ty)
     end 
     setadd(madd[mxb],gg.TYPE_DWORD,allmagics[mxc][2],false) 
   end
+end
+
+function ovrdaily()
+  owval = inputnum(1)
+  ftarget = eoffsets.nentity - poffsets.daily
+  ftbl = {}
+  for i = 0, 512 do
+    vc1 = getadd(ftarget + (0x50*i),gg.TYPE_QWORD)
+    if vc1 < 1 then break; end
+    table.insert(ftbl,{address = ftarget + (0x50*i) + 0x8,flags = gg.TYPE_DWORD,value = owval})
+    table.insert(ftbl,{address = ftarget + (0x50*i) + 0xC,flags = gg.TYPE_FLOAT,value = 1})
+  end
+  gg.setValues(ftbl)
+  gg.toast('done')
+end
+
+function dumpdaily()
+  ftarget = eoffsets.nentity - poffsets.daily
+  fstr = ''
+  for i = 0, 512 do
+    vc1 = getadd(ftarget + (0x50*i),gg.TYPE_QWORD)
+    if vc1 < 1 then break; end
+    fstr = fstr .. addtostr(vc1,38) .. '/' .. getadd(ftarget + (0x50*i) + 0x8,gg.TYPE_DWORD) .. '/' .. getadd(ftarget + (0x50*i) + 0xC,gg.TYPE_FLOAT) .. '\n'
+  end
+  gg.copyText(fstr)
 end
 
 function magicmenu()
@@ -3393,7 +3430,7 @@ function domenu()
         scsettings()
       end
       if m == 15 then
-        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','reach','frags','pick crab','throw crab','krill to me'
+        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','krill to me','overwrite daily'
         },nil,'⚠️This features are not stable')
         if x == 1 then
           xgd = gg.getResults(gg.getResultsCount())
@@ -3421,7 +3458,7 @@ function domenu()
           dumpmagic()
         end
         if x == 6 then
-          reachtest()
+          dumpdaily()
         end
         if x == 7 then
           absflower()
@@ -3435,7 +3472,9 @@ function domenu()
         if x == 10 then
           collectkrill(1)
         end
-        
+        if x == 11 then
+          ovrdaily()
+        end
       end
         --absflower()
       
