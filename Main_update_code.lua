@@ -1,6 +1,4 @@
---That dead sky open source by Kel
---Do you have some good functions or codes?
---Tell me discord ExMachina#5142
+--crd to ExMachina#5142
 
 
 
