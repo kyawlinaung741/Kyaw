@@ -3,7 +3,7 @@
 
 
 gg.toast('FuckChina TGC Loaded')
-ddd = "c21.08.18"
+ddd = "c21.08.15"
 pshare = ''
 umenu = true
 fasthome = true
@@ -29,7 +29,7 @@ psettings = {
   portaldef = false
   }
   
-scriptv = {process ='com.tgc.sky.android',version=175117}
+scriptv = {process ='com.tgc.sky.android',version=174878}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
 crarray = {}
