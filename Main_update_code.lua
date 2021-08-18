@@ -2946,11 +2946,11 @@ function domenu()
           if eoffsets.gframe == 0x00 then
             eoffsets.gframe = getadd(eoffsets.nentity + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
           end
-          setadd(eoffsets.gframe,gg.TYPE_FLOAT,inputnum(60),false)
+          setadd(eoffsets.gframe,gg.TYPE_FLOAT,inputnum(30),false)
           
         end
         if x == 9 then 
-           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(60),true)
+           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(20),true)
         end
         if x == 10 then
           adr = pbase + poffsets.pose
