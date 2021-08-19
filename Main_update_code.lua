@@ -1,9 +1,8 @@
---crd to ExMachina#5142
-
+--crd to ExMachina
 
 
 gg.toast('FuckChina TGC Loaded')
-ddd = "c21.08.15"
+ddd = "c21.08.18"
 pshare = ''
 umenu = true
 fasthome = true
@@ -29,7 +28,7 @@ psettings = {
   portaldef = false
   }
   
-scriptv = {process ='com.tgc.sky.android',version=174878}
+scriptv = {process ='com.tgc.sky.android',version=175117}
 teleparr = {spec = false,follow = false,collect = false,enable = false,hide = false,arr = 1}
 gameinfo = gg.getTargetInfo()
 crarray = {}
@@ -50,11 +49,11 @@ prange = {a = 0,b = -1}
 rbootloader = gg.getRangesList('libBootloader.so')[1].start
 poffsets = {
   sival = -1096122630,
-  ptoplayer = 0x1871A90,
-  ptoentity = 0x1AEAEB0,
+  ptoplayer = 0x1872A90,
+  ptoentity = 0x1AEBDF0,
   ptopbase = 0x3DB2D8,
-  ptonentity = 0xED523C,
-  ptonworld = 0x61AD0C,
+  ptonentity = 0xC8936C,
+  ptonworld = 0x63BD0C,
   ptofps = 0x562E480,
   wlevel = 0x22400,
   positX = 0x1C968,
@@ -70,17 +69,17 @@ poffsets = {
   magic = 0x2B788,
   bsize = 0x25494,
   uemote = -0x43D50,
-  eflowers = 0xB266B8,
+  eflowers = 0xB266A8,
   pshout = 0x22DE0,
   pdamage = 0x2245C,
-  wwings = 0x4E069C,
-  wobjs = 0x8F88D4,
+  wwings = 0x4E066C,
+  wobjs = 0x8F88A4,
   wbtns = 0x91E178,
   gohome = 0x23C18,
   elist = 0x1315BF3,
-  gspeed = 0x14EB38C,
+  gspeed = 0x156150C,
   eused = 0x2B48C,
-  vcandles = 0x501B74,
+  vcandles = 0x501B44,
   gchat = 0x93F234,
   ucandle = 0x595400,
   fullmagic = 0x27B68,
@@ -88,12 +87,12 @@ poffsets = {
   mportal = 0x17438,
   mcandles = 0x266F8,
   sglow = 0x21D00,
-  wwind = 0x96833C,
+  wwind = 0x9DC4BC,
   pwalk = 0x2D9FAE8,
-  cfrags = 0x91AC00,
-  gcamera = 0xF1A6EC,
+  cfrags = 0x91ABD0,
+  gcamera = 0xF9086C,
   ecrabs = 0x5A49CC,
-  uihook = 0x94144C,
+  uihook = 0x94143C,
   shoutscale = 0x255A8,
   daily = 0x1303A24
   }
@@ -966,7 +965,7 @@ eoffsets.nentity = gg.getResults(gg.getResultCount())[1].address
 ]]--
 poffsets.elist = eoffsets.nentity - poffsets.elist
 nn = eoffsets.nentity + 0x1D4
-  for i=1,450 do
+for i=1,450 do
   table.insert(candles,{address=nn+(i-1)*0x1C0,flags=16,value=0,name='cc',freeze=false})
 end
 --B0700C
@@ -985,7 +984,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by K.L.A')
+ setstr(nn,27,'by ExMachina')
  end
  ggrange(4)
  --[[
@@ -1002,7 +1001,7 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 
 --gg.addListItems(candles)
 gg.clearResults()
-gg.toast('\n𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n' .. ddd .. ' by Kel')
+gg.toast('\nCrd to Exmchina\n' .. ddd .. ' by Kel')
   
 if psettings.nodamage then
   setadd(pbase + poffsets.pdamage,gg.TYPE_DWORD,0,true)
@@ -1441,13 +1440,21 @@ function pmagic(arr,id,sil)
   else
     setadd(tgt,gg.TYPE_DWORD,id,false)
   end
+  if id ~= 0 then
   setadd(tgt + 0x8,gg.TYPE_DWORD,2139095040,false)
-  --setadd(tgt + 0x10,gg.TYPE_DWORD,1600132692,false)
-  --setadd(tgt + 0x18,gg.TYPE_DWORD,-1720562886,false)
-  --setadd(tgt + 0x1C,gg.TYPE_DWORD,-1806973714,false)
-  --setadd(tgt + 0x20,gg.TYPE_DWORD,1020395176,false)
-  --setadd(tgt + 0x24,gg.TYPE_DWORD,131004170,false)
+  --[[
+  setadd(tgt + 0x8,gg.TYPE_DWORD,1629255046,false)
+  setadd(tgt + 0x10,gg.TYPE_DWORD,1629253046,false)
+  setadd(tgt + 0x18,gg.TYPE_DWORD,1358535875,false)
+  setadd(tgt + 0x1C,gg.TYPE_DWORD,-398117947,false)
+  setadd(tgt + 0x20,gg.TYPE_DWORD,-1848272760,false)
+  setadd(tgt + 0x24,gg.TYPE_DWORD,1993010466,false)
+  ]]--
   setadd(tgt + 0x28,gg.TYPE_DWORD,sil,false)
+  else
+    setadd(tgt + 0x8,gg.TYPE_DWORD,0,false)
+    setadd(tgt + 0x28,gg.TYPE_DWORD,0,false)
+  end
   setadd(pbase + poffsets.magic + 0xC00,gg.TYPE_DWORD,12,true)
   --gg.toast(poffsets.magic + 0xC00)
   setadd(tgt + 0x28,gg.TYPE_DWORD,sil,false)
@@ -1773,7 +1780,7 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
     nra = gg.choice(vsr,nil,'')
@@ -1816,7 +1823,7 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
     nra = gg.choice(vsr,nil,'')
@@ -1847,7 +1854,7 @@ function teleplayers()
       else
         ap = {x=getadd(ght,gg.TYPE_FLOAT),y=getadd(ght+0x4,gg.TYPE_FLOAT),z=getadd(ght+0x8,gg.TYPE_FLOAT)}
         bp = getcoord(false)
-        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A88,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
+        table.insert(vsr,'['..i..'] wings : '..toint(getadd(ght + 0x5A98,gg.TYPE_FLOAT))..' distance : '..(math.floor(calc3d(bp,ap)*100)/100))
       end
     end
     nra = gg.choice(vsr,nil,'')
@@ -2116,6 +2123,14 @@ function magicmenu()
     end
     table.insert(y,'Manual')
     x=gg.choice(y,nil,'select spell')
+    for i = 0,9 do
+      xa = getadd(pbase + (poffsets.magic + (0x30 * i)),gg.TYPE_DWORD)
+      for h,d in ipairs(mid) do
+        if xa == d[2] then
+          mslot[i+1] = d[1]
+        end
+      end
+    end
     t=gg.choice(mslot,nil,'select slot')
     if (x ~= nil and t ~= nil) then
       gg.setVisible(false)
@@ -2950,7 +2965,7 @@ function domenu()
           
         end
         if x == 9 then 
-           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(20),true)
+           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(0),true)
         end
         if x == 10 then
           adr = pbase + poffsets.pose
@@ -3428,7 +3443,7 @@ function domenu()
         scsettings()
       end
       if m == 15 then
-        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','krill to me','overwrite daily'
+        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','krill to me','execute','load coord'
         },nil,'⚠️This features are not stable')
         if x == 1 then
           xgd = gg.getResults(gg.getResultsCount())
@@ -3471,7 +3486,12 @@ function domenu()
           collectkrill(1)
         end
         if x == 11 then
-          ovrdaily()
+          local fld,lrf = pcall(load(inputstr()))
+          if not fld then gg.alert(lrf) end
+        end
+        if x == 12 then
+          local fld,lrf = pcall(load('table.insert(posits,' ..replace(inputstr(),'$$',',') .. ')'))
+          if not fld then gg.toast(lrf) end
         end
       end
         --absflower()
