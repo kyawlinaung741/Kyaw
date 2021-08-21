@@ -1,8 +1,9 @@
---crd to ExMachina
+--crd to exmchina
 
 
-gg.toast('FuckChina TGC Loaded')
-ddd = "c21.08.19"
+
+gg.toast('FuckChina Loaded')
+ddd = "a21.08.20"
 pshare = ''
 umenu = true
 fasthome = true
@@ -25,7 +26,8 @@ psettings = {
   showmenu = true,
   smcrdelay = 1000,
   smwrdelay = 1000,
-  portaldef = false
+  portaldef = false,
+  fhspeed = 100
   }
   
 scriptv = {process ='com.tgc.sky.android',version=175117}
@@ -68,7 +70,7 @@ poffsets = {
   gesture = 0x2C4C4,
   magic = 0x2B788,
   bsize = 0x25494,
-  uemote = -0x43D50,
+  uemote = -0x43D20,
   eflowers = 0xB266A8,
   pshout = 0x22DE0,
   pdamage = 0x2245C,
@@ -76,11 +78,11 @@ poffsets = {
   wobjs = 0x8F88A4,
   wbtns = 0x91E178,
   gohome = 0x23C18,
-  elist = 0x1315BF3,
+  elist = 0x138BD73,
   gspeed = 0x156150C,
   eused = 0x2B48C,
   vcandles = 0x501B44,
-  gchat = 0x93F234,
+  gchat = 0x93F224,
   ucandle = 0x595400,
   fullmagic = 0x27B68,
   mymagic = 0x23A18,
@@ -94,7 +96,8 @@ poffsets = {
   ecrabs = 0x5A49CC,
   uihook = 0x94143C,
   shoutscale = 0x255A8,
-  daily = 0x1303A24
+  daily = 0x1303A24,
+  wingmap = 0x12CE41C
   }
 
 allmagics = {}
@@ -214,6 +217,8 @@ mid = {
 {'🆕️Summer Umbrella',2878211958,0},
 {'🆕️Summer Hat',2052387583,2},
 {'🆕️Recliner',2875484078,0},
+{'🆕️Golden Cape',330655056,1},
+{'🆕️Kizuna AI Call',2413103828,0},
  {'❌none',0,0}
 };
 windwallset = {
@@ -641,7 +646,7 @@ function tbltostr(tbl)
         elseif type(v) == "boolean" then
             result = result..tostring(v)
         else
-            result = result.."\""..v.."\""
+            result = result..v
         end
         result = result..","
     end
@@ -672,8 +677,8 @@ function loadsave()
     if not ert then
       savedata()
     end
-    if psettings.portaldef == nil then
-      psettings.portaldef = false
+    if psettings.fhspeed == nil then
+      psettings.fhspeed = 100
     end
   end
 end
@@ -984,7 +989,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by Kyaw')
+ setstr(nn,27,'by KYAW')
  end
  ggrange(4)
  --[[
@@ -1001,7 +1006,7 @@ eoffsets.ncamera = eoffsets.nentity - poffsets.gcamera
 
 --gg.addListItems(candles)
 gg.clearResults()
-gg.toast('\nCrd to Exmchina\n' .. ddd .. ' by Kel')
+gg.toast('\n𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n' .. ddd .. ' by Kel')
   
 if psettings.nodamage then
   setadd(pbase + poffsets.pdamage,gg.TYPE_DWORD,0,true)
@@ -1746,15 +1751,16 @@ end
 function htrigger()
   if fastvalue then
     fastmax = fastmax + 1
-    if getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT) == 1 or fastmax > 12 then
+    if getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT) == 1 or fastmax > 25 then
       gamespeed(1)
       fastvalue = false
       fastmax = 0
+      setadd(pbase + poffsets.gohome,gg.TYPE_FLOAT,1,false)
     end
   else
     if getadd(pbase + poffsets.gohome,gg.TYPE_FLOAT) ~= 1 then
       fastmax = 0
-      gamespeed(100)
+      gamespeed(psettings.fhspeed)
       fastvalue = true
     end
   end
@@ -2020,6 +2026,44 @@ function candlefarm(aa,bb)
   setadd(pbase + poffsets.pose,gg.TYPE_DWORD,0,false)
   gg.removeListItems(candles)
   gg.removeListItems(flowers)
+end
+
+function doorpeek(boo)
+  dpoint = eoffsets.nentity - poffsets.mportal
+  vf = {}
+  if boo then
+    gg.setVisible(false)
+    for i = 0, 15 do
+      if getadd(dpoint + (0xE0 * i) - 0x4,gg.TYPE_DWORD) == 0 then
+      break;
+      end
+      for y = 1,13 do
+        table.insert(vf,{address=dpoint+(0xE0*i)-(0x4*y),flags=gg.TYPE_DWORD,value=0})
+      end
+      gg.setValues(vf)
+      nowind()
+    end
+    
+    return;
+  end
+  vf = {}
+  mf = {}
+  for i = 0, 15 do
+    if getadd(dpoint + (0xE0 * i) - 0x4,gg.TYPE_DWORD) == 0 then
+      break;
+    end
+    if getadd(dpoint + (0xE0 * i),gg.TYPE_DWORD) == 1 then
+      if getadd(dpoint + (0xE0 * i) - 0x34,gg.TYPE_DWORD) == 49 then
+        table.insert(vf,addtostr(getadd(dpoint + (0xE0 * i) - 0x34 + 0x10,gg.TYPE_QWORD),24))
+        else
+        table.insert(vf,addtostr(dpoint + (0xE0 * i) - 0x33,24))
+      end
+      table.insert(mf,{x=getadd(dpoint + (0xE0 * i) - 0x74,gg.TYPE_FLOAT),y=getadd(dpoint + (0xE0 * i) - 0x74+0x4,gg.TYPE_FLOAT),z=getadd(dpoint + (0xE0 * i) - 0x74+0x8,gg.TYPE_FLOAT)})
+    end
+  end 
+  hf = gg.choice(vf,nil,'')
+  if hf == nil then return; end
+  setposit(mf[hf].x,mf[hf].y,mf[hf].z)
 end
 
 function getmagics()
@@ -2611,6 +2655,7 @@ function scsettings()
     'Semi-auto candle runner delay : ' .. psettings.smcrdelay .. 'ms',
     'Semi-auto wing runner delay : ' .. psettings.smwrdelay .. 'ms',
     'Use legacy map changer : ' .. boolling(psettings.portaldef),
+    'Fasthome speed : ' .. psettings.fhspeed,
   },nil,'')
   if xcs == nil then return; end
   if xcs == 1 then
@@ -2651,6 +2696,9 @@ function scsettings()
   end
   if xcs == 13 then
     psettings.portaldef = toggle(psettings.portaldef)
+  end
+  if xcs == 14 then
+    psettings.fhspeed = inputnum(100)
   end
   savedata()
   scsettings()
@@ -2754,6 +2802,7 @@ function domenu()
         x=gg.choice({
         '➡️Teleport'
       	,'⏩Change map'
+      	,'🤝Change map together'
       	,'🏠Change home code'
       	,'⬇️Save this location'
       	,'⬆️Load saved location' .. math.floor(px) .. ', ' .. math.floor(py) .. ', ' ..math.floor(pz)
@@ -2766,6 +2815,7 @@ function domenu()
       	,'⏬Warp down'
       	,'☢Collect crabs'
       	,'🍴Remove crabs'
+      	,'🚪Remove map changes/limits'
       	,'Set Warp distance'
       	,'Set breaching hotkey'
       	},nil,getmap())
@@ -2778,7 +2828,7 @@ function domenu()
           table.insert(y,cworld[i][1])
         end
         table.insert(y,'⚠️Manual')
-         r=gg.choice(y,nil,'Choose and go home')
+         r=gg.choice(y,nil,'')
          if (r ~= nil) then 
            if r == #y then
             istr = inputstr()
@@ -2790,7 +2840,34 @@ function domenu()
             end
          end
       	end
-      	if x == 3 then 
+      	if x == 3 then
+      	  y={}
+        for i, v in ipairs(cworld) do
+          table.insert(y,cworld[i][1])
+        end
+        table.insert(y,'⚠️Crash game')
+         r=gg.choice(y,nil,'Fasthome feature will be disabled! ')
+         if (r ~= nil) then 
+           if psettings.fhspeed > 1 then
+            fasthome = false
+           end
+           xre = eoffsets.nentity - poffsets.wingmap
+           setadd(xre,gg.TYPE_QWORD,49,false)
+           setadd(xre+0x4,gg.TYPE_DWORD,0,false)
+           setadd(xre+0x8,gg.TYPE_DWORD,28,false)
+           setadd(xre+0xC,gg.TYPE_DWORD,0,false)
+           --use pointer to not crash game
+           setadd(xre+0x10,gg.TYPE_QWORD,eoffsets.nentity - poffsets.wingmap + 0x36D0,false)
+           if r == #y then
+            setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,'ExMachina')
+          else
+            setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,cworld[r][2])
+          end
+           setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
+           gg.toast('Use your wing to change map')
+         end
+      	end
+      	if x == 4 then 
       	   y={}
       	   if eoffsets.world == 0x00 then
       	      gg.clearResults()
@@ -2825,15 +2902,15 @@ function domenu()
           gg.setVisible(false)
          end
       	end
-      	if x == 4 then
+      	if x == 5 then
       	  getpos()
       	  gg.setVisible(false)
       	end
-        if x == 5 then 
+        if x == 6 then 
           setposit(px, py, pz) 
           gg.setVisible(false)
         end
-        if x == 6 then 
+        if x == 7 then 
           usp = gg.prompt({"Coord X", "Coord Y", "Coord Z"}, {[1]= getadd(pbase+poffsets.positX,gg.TYPE_FLOAT),[2]= getadd(pbase+poffsets.positY,gg.TYPE_FLOAT),[3]= getadd(pbase+poffsets.positZ,gg.TYPE_FLOAT)}, {[1]="number",[1]="number",[1]="number"})
           if usp[1] == nil then
             usp[1] = getadd(pbase+poffsets.positX,gg.TYPE_FLOAT)
@@ -2847,18 +2924,18 @@ function domenu()
           setposit(usp[1],usp[2],usp[3])
           gg.setVisible(false)
         end
-      if x == 7 then
+      if x == 8 then
         gg.setVisible(false)
         viscandle(true)
       end
-      if x == 8 then
+      if x == 9 then
         gg.setVisible(false)
         viscandle(false)
       end
-      if x == 9 then
+      if x == 10 then
           noclip()
       end
-      if x == 10 then
+      if x == 11 then
           if getadd(eoffsets.cloud,gg.TYPE_DWORD) == 1 then
             setadd(eoffsets.cloud,gg.TYPE_DWORD,0,false)
             else
@@ -2866,27 +2943,30 @@ function domenu()
           end
           gg.setVisible(false)
       end
-      if x == 11 then
+      if x == 12 then
         setposit(getadd(pbase + poffsets.positX,gg.TYPE_FLOAT), getadd(pbase + poffsets.positY,gg.TYPE_FLOAT) + psettings.warpdis, getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT))
           gg.setVisible(false)
       end
-      if x == 12 then
+      if x == 13 then
         setposit(getadd(pbase + poffsets.positX,gg.TYPE_FLOAT), getadd(pbase + poffsets.positY,gg.TYPE_FLOAT) - psettings.warpdis, getadd(pbase + poffsets.positZ,gg.TYPE_FLOAT))
           gg.setVisible(false)
       end
-      if x == 13 then
+      if x == 14 then
         gg.setVisible(false)
         collectcrab(1)
       end
-      if x == 14 then
+      if x == 15 then
         gg.setVisible(false)
         collectcrab(0)
       end
-      if x == 15 then
+      if x == 16 then
+        doorpeek(true)
+      end
+      if x == 17 then
           psettings.warpdis = inputnum(6)
           --savedata()
       end
-      if x == 16 then
+      if x == 18 then
           k=gg.choice({
         'Disable'
       	,'Honk'
@@ -2901,7 +2981,7 @@ function domenu()
           if k == 3 then mev = 2 end
           if k == 4 then mev = 3 end
         end
-      if x == 17 then
+      if x == 18 then
           nnn = '{\"' .. getmap() .. '\",  {'
           for i = 0, 6 do
             nnn = nnn .. getadd(eoffsets.nworld + (i * 4),4) .. '; '
@@ -3190,7 +3270,7 @@ function domenu()
            'Upgrade all emotes'
            ,'Change special emotes'
            ,'Change all emotes'
-         },nil,'')
+         },nil,'❌This features got patched by tgc❌')
        if x == 1 then
          gg.setVisible(false)
          upemote()
@@ -3443,7 +3523,7 @@ function domenu()
         scsettings()
       end
       if m == 15 then
-        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','krill to me','execute','load coord'
+        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','krill to me','execute','load coord','door'
         },nil,'⚠️This features are not stable')
         if x == 1 then
           xgd = gg.getResults(gg.getResultsCount())
@@ -3493,6 +3573,10 @@ function domenu()
           local fld,lrf = pcall(load('table.insert(posits,' ..replace(inputstr(),'$$',',') .. ')'))
           if not fld then gg.toast(lrf) end
         end
+        if x == 13 then
+          doorpeek(false)
+        end
+        
       end
         --absflower()
       
@@ -3887,6 +3971,4 @@ while true do
    gg.sleep(100)
 end
 
---5A64
-
---h 00 00 34 43 00 60 6A 46
+--
