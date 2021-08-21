@@ -3,7 +3,7 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.08.20"
+ddd = "a21.08.22"
 pshare = ''
 umenu = true
 fasthome = true
