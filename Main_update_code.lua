@@ -3124,7 +3124,7 @@ function domenu()
           
         end
         if x == 9 then 
-           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(50),true)
+           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(25),true)
         end
         if x == 10 then
           adr = pbase + poffsets.pose
