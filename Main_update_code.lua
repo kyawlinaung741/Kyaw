@@ -5,15 +5,17 @@
 
 
 gg.toast('FuckChina Loaded')
-ddd = "a21.08.24"
+ddd = "a21.08.30"
 pshare = ''
 umenu = true
 fasthome = true
 fastvalue = false
 echanged = false
+teleping = false
 fastmax = 0
 crset = {enable = false, level = 0, map = ''}
 wrset = {enable = false, level = 0, map = ''}
+spinset = {enable = false, rot = 0, val = 0, lby = true, speed = 20}
 huiset = false
 psettings = {
   crspeed=3,
@@ -31,7 +33,8 @@ psettings = {
   portaldef = false,
   fhspeed = 100,
   cmimage = 1,
-  aeleven = false
+  aeleven = false,
+  ufps = 30
   }
   
 scriptv = {process ='com.tgc.sky.android',version=175117}
@@ -81,21 +84,21 @@ poffsets = {
   pdamage = 0x2245C,
   wwings = 0x4E066C,
   wobjs = 0x8F88A4,
-  wbtns = 0x91E178,
+  wbtns = 0x992348,
   gohome = 0x23C18,
   elist = 0x138BD73,
   gspeed = 0x156150C,
   eused = 0x2B48C,
   vcandles = 0x501B44,
   gchat = 0x93F224,
-  ucandle = 0x595400,
+  ucandle = 0x5953D0,
   fullmagic = 0x27B68,
   mymagic = 0x23A18,
   mportal = 0x17438,
   mcandles = 0x266F8,
   sglow = 0x21D00,
   wwind = 0x9DC4BC,
-  pwalk = 0x2D9FAE8,
+  pwalk = 0x122DA7C,
   cfrags = 0x91ABD0,
   gcamera = 0xF9086C,
   ecrabs = 0x5A49CC,
@@ -134,7 +137,8 @@ eoffsets = {
   gframe = 0x00,
   gspirits = 0x00,
   pdesk = 0x00,
-  glight = 0x00
+  glight = 0x00,
+  wlight = 0x00
 }
 mid = {
   {'💫Small',1692428656,0},
@@ -225,6 +229,8 @@ mid = {
 {'🆕️Recliner',2875484078,0},
 {'🆕️Golden Cape',330655056,1},
 {'🆕️Kizuna AI Call',2413103828,0},
+{'🆕️Small rabit',-848739711,0},
+{'🆕️Winter piano',-1202427550,0},
  {'❌none',0,0}
 };
 windwallset = {
@@ -257,8 +263,7 @@ windwallset = {
     {"NightDesert", 4756517339743666084},
     {"NightDesert", 4689256204097823239}
 }
---wip
---coord, magic id, map id, props id leaked from mom0 script by Kel
+
 cworld = {
    {"[Home]CandleSpace", 'CandleSpace'},
    {"[Isle]Dawn", 'Dawn'},
@@ -310,10 +315,10 @@ cworld = {
     {"Eden2", 'Storm'},
     {"[Nintendo] Nintendo_CandleSpace", 'Nintendo_CandleSpace'},
     {"⚠️Eden sacrifice⚠️", 'StormEnd'},
-    {"⚠️Eden rebirt1⚠️", 'OrbitMid'},
+    {"⚠️Eden rebirth1⚠️", 'OrbitMid'},
     {"⚠️Eden rebirth2⚠️", 'OrbitEnd'},
     {"⚠️Heaven⚠️", 'CandleSpaceEnd'},
-    {"⚠️Credit⚠️", 'Credit'},
+    {"⚠️Credit⚠️", 'Credits'},
  }
  
  doors = {
@@ -712,6 +717,9 @@ function loadsave()
     if psettings.aeleven == nil then
       psettings.aeleven = false
     end
+    if psettings.ufps == nil then
+      psettings.ufps = 30
+    end
   end
 end
 
@@ -833,6 +841,7 @@ function startup()
   eoffsets.glight = eoffsets.sspeed - 0x1C134
   eoffsets.wforce = eoffsets.sspeed + 0x530
   eoffsets.jforce = eoffsets.sspeed + 0x638
+  eoffsets.wlight = eoffsets.sspeed - 0x3FD08
   --[[
   ggrange(gg.REGION_C_DATA)
 gg.searchNumber("3.5", gg.TYPE_FLOAT)
@@ -1028,7 +1037,7 @@ mm = {}
  if gg.getResultsCount() > 3 then
  nn = gg.getResults(5)[4].address
  gg.clearResults()
- setstr(nn,27,'by Kyaw')
+ setstr(nn,27,'by ExMachina')
  end
  ggrange(4)
  --[[
@@ -1055,7 +1064,13 @@ end
 if psettings.nodamage then
   setadd(pbase + poffsets.pdamage,gg.TYPE_DWORD,0,true)
 end
-
+if psettings.fasthome then
+  fasthome = true
+  else
+  fasthome = false
+end
+eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
+setadd(eoffsets.gframe,gg.TYPE_FLOAT,psettings.ufps,false)
 getpatch()
 print('𝙉𝙤 𝙋𝙖𝙞𝙣 𝙔𝙚𝙨 𝙂𝙖𝙞𝙣\n')
 end
@@ -1163,7 +1178,7 @@ end
 function ggrange(vr)
   if psettings.aeleven then
     if vr ~= gg.REGION_CODE_APP then
-      gg.setRanges(gg.REGION_OTHER)
+      gg.setRanges(vr | gg.REGION_OTHER)
     else
       gg.setRanges(vr)
     end
@@ -1180,21 +1195,21 @@ function echange(boo)
   for i,v in ipairs(emotelist) do
     if v[5] == 2089048596 then
       setadd(v[4]+0xD7-0x10,gg.TYPE_DWORD,1251050323,false)
-      --setstr(v[4]+0x60,24,'UiSocialPlayfight')
+      setstr(v[4]+0x60-0x18,24,'UiSocialPlayfight')
       hitarr[1] = v[4]
     end
     if v[5] == -1968658055 then
       setadd(v[4]+0xD7-0x10,gg.TYPE_DWORD,145501185,false)
-      --setstr(v[4]+0x60,24,'UiEmoteSocialBearHug')
+      setstr(v[4]+0x60-0x18,24,'UiEmoteSocialBearHug')
       hitarr[2] = v[4]
     end
   end
   else
     setadd(hitarr[1]+0xD7-0x10,gg.TYPE_DWORD,2089048596,false)
-    --setstr(hitarr[1]+0x60,24,'UiEmoteAP10Bubbles')
+    setstr(hitarr[1]+0x60-0x18,24,'UiEmoteAP10Bubbles')
       
     setadd(hitarr[2]+0xD7-0x10,gg.TYPE_DWORD,-1968658055,false)
-    --setstr(hitarr[2]+0x60,24,'UiEmoteAP08DeepBreath')
+    setstr(hitarr[2]+0x60-0x18,24,'UiEmoteAP08DeepBreath')
   end
 end
 
@@ -1228,7 +1243,7 @@ function getemote()
     cd2 = addtostr(xd + 0x18,12)
     cd3 = addtostr(xd + 0x30,24)
     cd4 = getadd(xd + 0xD7 - 0x10,gg.TYPE_DWORD)
-    cd5 = addtostr(xd + 0x60,24)
+    cd5 = addtostr(xd + 0x60 - 0x18,24)
     table.insert(emotelist,{cd1,cd2,cd3,xd,cd4,cd5})
   end
   epoint = pbase + poffsets.uemote
@@ -1365,6 +1380,21 @@ function absorb()
   gg.setValues(nn)
   --gg.addListItems(nn)
   gg.clearResults()
+end
+
+function absspirits()
+  ExMach = 0xFCD0
+  xde = {}
+  mpos = getcoord(true)
+  for i = 0, 40 do
+    xda = pbase + 0xAB438 + (i * ExMach)
+    if getadd(xda-0x18,gg.TYPE_DWORD) ~= 0 and getadd(xda,gg.TYPE_FLOAT) ~= 0 then
+      table.insert(xde,{address=xda,flags=gg.TYPE_FLOAT,value=mpos[1],freeze=true})
+      table.insert(xde,{address=xda+(0x4),flags=gg.TYPE_FLOAT,value=mpos[2],freeze=true})
+      table.insert(xde,{address=xda+(0x8),flags=gg.TYPE_FLOAT,value=mpos[3],freeze=true})
+      end
+  end
+  gg.setValues(xde)
 end
 
 function portallegacy(str)
@@ -1738,7 +1768,9 @@ function dorace()
 end
 
 function espam()
-  if mslot[1] == 'none' then return; end
+  if getadd(pbase + (poffsets.magic + 0x30),gg.TYPE_DWORD) == 0 then 
+    pmagic(1,1750685908,0)
+  end
   adr = pbase + poffsets.magic + 0x28
   --gg.toast(tostring(isfreeze(adr)))
   if isfreeze(adr) then
@@ -2393,18 +2425,17 @@ end
 function collectkrill(uy)
   frz = true
   eval = {}
+  pattern = 0x2B0
   rpoint = eoffsets.nentity - poffsets.ecrabs - 0xC170
   mpoint = getcoord(true)
   if uy == 0 then
-    for i=0,50 do
-    evalid = getadd(rpoint + (0xC80*i)+0x30,gg.TYPE_FLOAT)
+    for i=0,10 do
+    evalid = getadd(rpoint + (pattern*i)+0x30,gg.TYPE_FLOAT)
     if evalid == 0 then
       break
     end
     --eposit = {getadd(rpoint + (0xC80*i),gg.TYPE_FLOAT),getadd(rpoint + (0xC80*i)+0x4,gg.TYPE_FLOAT),getadd(rpoint + (0xC80*i)+0x8,gg.TYPE_FLOAT)}
-    table.insert(eval,{address=rpoint + (0xC80*i),flags=gg.TYPE_FLOAT,value=-999,freeze=true,name='krillX'})
-    table.insert(eval,{address=rpoint + (0xC80*i)+0x4,flags=gg.TYPE_FLOAT,value=-999,freeze=true,name='krillY'})
-    table.insert(eval,{address=rpoint + (0xC80*i)+0x8,flags=gg.TYPE_FLOAT,value=-999,freeze=true,name='krillZ'})
+    table.insert(eval,{address=rpoint + (pattern*i)+0x4,flags=gg.TYPE_FLOAT,value=-999,freeze=true,name='krillY'})
     end
 if #eval == 0 then return; end
   --gg.setValues(eval)
@@ -2418,18 +2449,66 @@ if #eval == 0 then return; end
   return;
   end
   if uy == 1 then
-    for i=0,50 do
+    for i=0,10 do
     --detec : 1D0
-    evalid = getadd(rpoint + (0xC80*i),gg.TYPE_FLOAT)
+    evalid = getadd(rpoint + (pattern*i),gg.TYPE_FLOAT)
     if evalid == 0 then
       break
     end
-      table.insert(eval,{address=rpoint + (0xC80*i),flags=gg.TYPE_FLOAT,value=mpoint[1]})
-      table.insert(eval,{address=rpoint + (0xC80*i)+0x4,flags=gg.TYPE_FLOAT,value=mpoint[2]})
-      table.insert(eval,{address=rpoint + (0xC80*i)+0x8,flags=gg.TYPE_FLOAT,value=mpoint[3]})
+      table.insert(eval,{address=rpoint + (pattern*i),flags=gg.TYPE_FLOAT,value=mpoint[1]})
+      table.insert(eval,{address=rpoint + (pattern*i)+0x4,flags=gg.TYPE_FLOAT,value=mpoint[2]})
+      table.insert(eval,{address=rpoint + (pattern*i)+0x8,flags=gg.TYPE_FLOAT,value=mpoint[3]})
     end
     gg.setValues(eval)
     return;
+  end
+  if uy == 2 then
+    for i=0,10 do
+    --detec : 1D0
+    evalid = getadd(rpoint + (pattern*i),gg.TYPE_FLOAT)
+    if evalid == 0 then
+      break
+    end
+    if isfreeze(rpoint+(pattern*i)+0x24) then
+      setadd(rpoint+(pattern*i)+0x24,gg.TYPE_FLOAT,0,false)
+    else
+      setadd(rpoint+(pattern*i)+0x24,gg.TYPE_FLOAT,0,true)
+    end
+    end
+    return;
+  end
+  if uy == 3 then
+    for i=0,10 do
+    --detec : 1D0
+    evalid = getadd(rpoint + (pattern*i),gg.TYPE_FLOAT)
+    if evalid == 0 then
+      break
+    end
+    if isfreeze(rpoint+(pattern*i)+0x1AC) then
+      setadd(rpoint+(pattern*i)+0x1AC,gg.TYPE_DWORD,257,false)
+    else
+      setadd(rpoint+(pattern*i)+0x1AC,gg.TYPE_DWORD,257,true)
+    end
+    end
+    return;
+  end
+  if uy == 4 then
+    for i=0,10 do
+    --detec : 1D0
+    evalid = getadd(rpoint + (pattern*i),gg.TYPE_FLOAT)
+    if evalid == 0 then
+      break
+    end
+    if isfreeze(rpoint+(pattern*i)+0x1AC) then
+      setadd(rpoint+(pattern*i)+0x1AC,gg.TYPE_DWORD,258,false)
+    else
+      setadd(rpoint+(pattern*i)+0x1AC,gg.TYPE_DWORD,258,true)
+    end
+    end
+    return;
+  end
+  if uy == 5 then
+    setposit(getadd(rpoint,gg.TYPE_FLOAT),getadd(rpoint+0x4,gg.TYPE_FLOAT),getadd(rpoint+0x8,gg.TYPE_FLOAT))
   end
 end
 
@@ -2519,6 +2598,7 @@ function hookui()
       setadd(vtarget - 0xC208 + 0x30,gg.TYPE_DWORD,0,true)
     end
   end
+  ThisScriptMadeBy = 'Kel'
   if cgh == 9 then
     huiset = false
     domenu()
@@ -2724,7 +2804,8 @@ function scsettings()
     'Use legacy map changer : ' .. boolling(psettings.portaldef),
     'Fasthome speed : ' .. psettings.fhspeed,
     'Change map image : ' .. imgs[psettings.cmimage],
-    'Android 11(Testing) : ' .. boolling(psettings.aeleven)
+    'Android 11(Testing) : ' .. boolling(psettings.aeleven),
+    'Fps : ' .. psettings.ufps
   },nil,'')
   if xcs == nil then return; end
   if xcs == 1 then
@@ -2777,6 +2858,9 @@ function scsettings()
   end
   if xcs == 16 then
     psettings.aeleven = toggle(psettings.aeleven)
+  end
+  if xcs == 17 then
+    psettings.ufps = inputnum(30)
   end
   savedata()
   scsettings()
@@ -2891,8 +2975,8 @@ function domenu()
       	,'☁️Show/Hide clouds'
       	,'⏫Warp up'
       	,'⏬Warp down'
-      	,'☢Collect crabs'
-      	,'🍴Remove crabs'
+      	,'🦀Crabs'
+      	,'🦐Krills'
       	,'🚪Remove map changes/limits'
       	,'Set Warp distance'
       	,'Set breaching hotkey'
@@ -2924,11 +3008,13 @@ function domenu()
           table.insert(y,cworld[i][1])
         end
         table.insert(y,'⚠️Crash game')
-         r=gg.choice(y,nil,'Fasthome feature will be disabled! ')
+         r=gg.choice(y,nil,'Select map and use your wing! ')
          if (r ~= nil) then 
            gg.setVisible(false)
-           if psettings.fhspeed > 1 then
+           if psettings.fhspeed > 1 and fasthome and not teleping then
             fasthome = false
+            teleping = true
+            gg.toast('Fast home disabled')
            end
            xre = eoffsets.nentity - poffsets.wingmap
            setadd(xre,gg.TYPE_QWORD,49,false)
@@ -2943,8 +3029,8 @@ function domenu()
             setstr(eoffsets.nentity - poffsets.wingmap + 0x36D0,24,cworld[r][2])
           end
            setadd(pbase + poffsets.ewing,gg.TYPE_DWORD,1973407668,false)
-           gg.toast('Use your wing to change map')
          end
+         WhyYouRemoveThisLine = 'by ExMachina'
       	end
       	if x == 4 then 
       	   y={}
@@ -3031,12 +3117,27 @@ function domenu()
           gg.setVisible(false)
       end
       if x == 14 then
+        xfr = gg.choice({'Collect all','Remove all'})
         gg.setVisible(false)
-        collectcrab(1)
+        if xfr == 1 then
+          collectcrab(1)
+        elseif xfr == 2 then
+          collectcrab(0)
+        end
+        
       end
       if x == 15 then
+        xfr = gg.choice({'Collect all','Remove all','Idiot','Go to Krill'})
         gg.setVisible(false)
-        collectcrab(0)
+        if xfr == 1 then
+          collectkrill(1)
+        elseif xfr == 2 then
+          collectkrill(0)
+        elseif xfr == 3 then
+          collectkrill(2)
+        elseif xfr == 4 then
+          collectkrill(5)
+        end
       end
       if x == 16 then
         doorpeek(true)
@@ -3079,14 +3180,14 @@ function domenu()
            '⏭Engine speed',
            '↗️Jump acceleration', 
            '⤴️Jump distance',
-           '❔Gravity',
            '📳FPS',
            '🚸Body size(Client)',
            '🚹No knockdown',
            '🔥Auto burn',
            '🌬Remove wind wall',
-           '🏠Faster return to home',
-           '🔦Light multiply'
+           '🏠Fast home/candles',
+           '🔦Light multiply',
+           '🏜World bright'
          },nil,'')
           if x == 1 then 
             if getadd(eoffsets.cspeed,gg.TYPE_FLOAT) >= 3.0 then
@@ -3114,19 +3215,18 @@ function domenu()
            setadd(eoffsets.jforce,gg.TYPE_FLOAT,inputnum(1),false)
         end
         if x == 7 then 
-           setadd(eoffsets.gravity,gg.TYPE_FLOAT,inputnum(-3.16081619263),false)
-        end
-        if x == 8 then 
           if eoffsets.gframe == 0x00 then
             eoffsets.gframe = getadd(rbootloader + poffsets.ptofps,gg.TYPE_QWORD) + 0x160
           end
-          setadd(eoffsets.gframe,gg.TYPE_FLOAT,inputnum(40),false)
-          
+          vframe = inputnum(30)
+          setadd(eoffsets.gframe,gg.TYPE_FLOAT,vframe,false)
+          psettings.ufps = vframe
+          savedata()
         end
-        if x == 9 then 
-           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(40),true)
+        if x == 8 then 
+           setadd(pbase + poffsets.bsize,gg.TYPE_FLOAT,inputnum(0),true)
         end
-        if x == 10 then
+        if x == 9 then
           adr = pbase + poffsets.pose
           if isfreeze(adr) then
             setadd(adr,gg.TYPE_DWORD,0,false)
@@ -3136,7 +3236,7 @@ function domenu()
             gg.toast('on')
           end
         end
-        if x == 11 then
+        if x == 10 then
           if candles[1].freeze then
             for i,v in pairs(candles) do
               v.value = 0
@@ -3167,10 +3267,10 @@ function domenu()
             gg.toast('on')
           end
         end
-        if x == 12 then
+        if x == 11 then
           nowind()
         end
-        if x == 13 then
+        if x == 12 then
           if fasthome then
             fasthome = false
             gamespeed(1)
@@ -3182,8 +3282,11 @@ function domenu()
           end
           
         end
-        if x == 14 then
+        if x == 13 then
           setadd(eoffsets.glight,gg.TYPE_FLOAT,inputnum(1),false)
+        end
+        if x == 14 then
+          setadd(eoffsets.wlight,gg.TYPE_FLOAT,inputnum(1),false)
         end
         
       end
@@ -3203,6 +3306,7 @@ function domenu()
            ,'🦀Throw crabs'
            ,'📢Super shout'
            ,'🎤Lock shout scale'
+           ,'🔃Spinbot'
          },nil,'')
        if x == nil then
          x = 0
@@ -3332,12 +3436,21 @@ function domenu()
         if x == 13 then
           adr = pbase + poffsets.shoutscale
           if isfreeze(adr) then
-            setadd(adr,gg.TYPE_FLOAT,5,false)
+            setadd(adr,gg.TYPE_FLOAT,0,false)
             gg.toast('off')
           else
-            setadd(adr,gg.TYPE_FLOAT,5,true)
+            vsld = gg.prompt({'seek bar 1 [0; 50]'},{50},{'number'})
+            if vsld[1] == nil then
+              vsld[1] = 5
+              else
+              vsld[1] = vsld[1] / 10
+            end
+            setadd(adr,gg.TYPE_FLOAT,vsld[1],true)
             gg.toast('on')
           end
+        end
+        if x == 14 then
+          spinmenu()
         end
       end
       
@@ -3393,6 +3506,7 @@ function domenu()
            ,'Semi-Auto wing farm'
            ,'Lock player candle'
            ,'Unlock elders'
+           ,'Absorb spirits(unstable!)'
          },nil,'')
        if x == 1 then
          y=gg.choice({
@@ -3491,7 +3605,19 @@ function domenu()
           gg.setVisible(false)
           fkelders()
         end
-        
+        if x == 7 then
+          gg.setVisible(false)
+          pmap = getmap()
+          gg.toast('Open gg to stop')
+          for i = 0, 60 do
+            if gg.isVisible(true) or pmap ~= getmap() then
+              break;
+            end
+            absspirits()
+            gg.sleep(900)
+          end
+          gg.toast('Absorb spirits disabled')
+        end
       end
       if m == 11 then
         if hcamera() then
@@ -3602,7 +3728,7 @@ function domenu()
         scsettings()
       end
       if m == 15 then
-        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','krill to me','execute','load coord','door'
+        x=gg.choice({'search 1D','print offsets','print emotes','print items','print magics','print daily','frags','pick crab','throw crab','absorb spirits','execute','load coord','door'
         },nil,'⚠️This features are not stable')
         if x == 1 then
           xgd = gg.getResults(gg.getResultsCount())
@@ -3642,7 +3768,7 @@ function domenu()
           collectcrab(4)
         end
         if x == 10 then
-          collectkrill(1)
+          absspirits()
         end
         if x == 11 then
           local fld,lrf = pcall(load(inputstr()))
@@ -3898,6 +4024,37 @@ function wrmenu()
   end
 end
 
+function spinmenu()
+  gg.setVisible(false)
+  if spinset.enable then
+    spinset.enable = false
+    setadd(spad,gg.TYPE_DWORD,0,false)
+    setadd(eoffsets.nentity - poffsets.pwalk - 0x90,gg.TYPE_FLOAT,0,false)
+    setadd(eoffsets.nentity - poffsets.pwalk - 0x88,gg.TYPE_FLOAT,0,false)
+    gg.toast('off')
+    return;
+  end
+  
+  spnf = gg.choice({'Spin','Moon Walk','Front lock','Random','Ghost Walk : ' .. boolling(spinset.lby),'Spin speed'},nil,'')
+  if spnf == nil then
+    return;
+  end
+  if spnf == 5 then
+    spinset.lby = toggle(spinset.lby)
+    spinmenu()
+    return;
+  end
+  if spnf == 6 then
+    spinset.speed = inputnum(20)
+    spinmenu()
+    return;
+  end
+  spad = eoffsets.nentity - poffsets.pwalk
+  spinset.enable = true
+  spinset.val = spnf
+  setadd(spad,gg.TYPE_DWORD,0,spinset.lby)
+end
+
 function telemenu()
   xh = gg.choice({
     'Select other',
@@ -3932,6 +4089,29 @@ function telemenu()
     
     return;
   end
+end
+
+function spinloop()
+  if not spinset.enable then
+    return;
+  end
+  if spinset.val == 1 then
+    if spinset.rot > 360 then
+      spinset.rot = 0
+    end
+    spinset.rot = spinset.rot + spinset.speed
+  end
+  if spinset.val == 2 then
+    spinset.rot = getadd(eoffsets.ncamera,gg.TYPE_FLOAT)*180/math.pi+180
+  end
+  if spinset.val == 3 then
+    spinset.rot = getadd(eoffsets.ncamera,gg.TYPE_FLOAT)*180/math.pi
+  end
+  if spinset.val == 4 then
+    spinset.rot = math.random(0,360)
+  end
+  setadd(eoffsets.nentity - poffsets.pwalk - 0x90,gg.TYPE_FLOAT,math.sin(spinset.rot*math.pi/180),true)
+  setadd(eoffsets.nentity - poffsets.pwalk - 0x88,gg.TYPE_FLOAT,math.cos(spinset.rot*math.pi/180),true)
 end
 
 function teleloop()
@@ -4001,6 +4181,9 @@ while true do
   if fasthome and teleparr.enable == false then
     htrigger()
   end
+  if spinset.enable then
+    spinloop()
+  end
   if resettick > -1 then
     resettick = resettick - 1 
     if resettick < 1 then
@@ -4030,6 +4213,11 @@ while true do
     end
   end
   if gg.isVisible(true) then
+    if teleping then
+      gg.toast('Fast home enabled')
+      teleping = false
+      fasthome = true
+    end
     if umenu and psettings.showmenu then
       umenu = false
       if crset.enable then
