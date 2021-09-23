@@ -1,0 +1,329 @@
+
+
+on = "[Off]"
+off = "[On]"
+cstatus_A = on
+cstatus_B = on
+cstatus_C = on
+cstatus_D = on
+cstatus_E = on
+cstatus_F = on
+cstatus_G = on
+cstatus_H = on
+cstatus_I = on
+
+function Main()
+  menu = gg.choice({
+    cstatus_A .. "☁️Remove Clouds☁️",
+    cstatus_B .. "🌟Character Glow🌟",
+    cstatus_C .. "😳FOV Hack😳",
+    cstatus_D .. "🦋Big Butterflies🦋",
+    cstatus_E .. "🚄Teleport🚄",
+    cstatus_F .. "🌌Night Mode🌌",
+    cstatus_G .. "🌊Swim On Land🌊",
+    cstatus_H .. "♾️️Infinite Slide♾️",
+    cstatus_I .. "♾️️Infinite Fly♾️",
+        "Exit"},
+        nil,
+    "🕯️SKY: CHILDREN OF THE LIGHT MOD MENU🕯️")
+  
+ 
+    if menu == 10 then 
+EXIT()
+  elseif menu == nil then
+  elseif menu == 1 then
+    if cstatus_A == on then
+       A1(on)
+	  cstatus_A = off
+	  gg.toast("On")
+	else
+	  A2(off)
+	  cstatus_A = on
+	  gg.toast("Off")
+	end
+ elseif menu == 2 then
+    if cstatus_B == on then
+       B1(on)
+	  cstatus_B = off
+	  gg.toast("On")
+	else
+	  B2(off)
+	  cstatus_B = on
+	  gg.toast("Off")
+	  end
+ elseif menu == 3 then
+    if cstatus_C == on then
+       C1(on)
+	  cstatus_C = off
+	  gg.toast("On")
+	else
+	  C2(off)
+	  cstatus_C = on
+	  gg.toast("Off")
+	  end
+ elseif menu == 4 then
+    if cstatus_D == on then
+       D1(on)
+	  cstatus_D = off
+	  gg.toast("On")
+	else
+	  D2(off)
+	  cstatus_D = on
+	  gg.toast("Off")
+	  end
+  elseif menu == 5 then
+    if cstatus_E == on then
+       E1(on)
+	  cstatus_E = off
+	  gg.toast("On")
+	else
+	  E2(off)
+	  cstatus_E = on
+	  gg.toast("Off")
+	  end
+ elseif menu == 6 then
+    if cstatus_F == on then
+       F1(on)
+	  cstatus_F = off
+	  gg.toast("On")
+	else
+	  F2(off)
+	  cstatus_F = on
+	  gg.toast("Off")
+	  end
+  elseif menu == 7 then
+    if cstatus_G == on then
+       G1(on)
+	  cstatus_G = off
+	  gg.toast("On")
+	else
+	  G2(off)
+	  cstatus_G = on
+	  gg.toast("Off")
+	  end
+  elseif menu == 8 then
+    if cstatus_H == on then
+       H1(on)
+	  cstatus_H = off
+	  gg.toast("On")
+	else
+	  H2(off)
+	  cstatus_H = on
+	  gg.toast("Off")
+	  end
+ elseif menu == 9 then
+    if cstatus_I == on then
+       I1(on)
+	  cstatus_I = off
+	  gg.toast("On")
+	else
+	  I2(off)
+	  cstatus_I = on
+	  gg.toast("Off")
+	  end
+   end
+
+XGCK=-1
+end
+
+
+-----RemoveClouds-----
+
+function A1(on)
+gg.setRanges(gg.REGION_VIDEO)
+gg.setVisible(false)
+gg.searchNumber("16",gg.TYPE_FLOAT)
+gg.setVisible(false)
+gg.getResults(1000)
+gg.editAll("-15", gg.TYPE_FLOAT)
+gg.clearResults()
+end
+
+function A2(off)
+gg.setRanges(gg.REGION_VIDEO)
+gg.setVisible(false)
+gg.searchNumber("-15",gg.TYPE_FLOAT)
+gg.setVisible(false)
+gg.getResults(1000)
+gg.editAll("16", gg.TYPE_FLOAT)
+gg.clearResults()
+end
+
+-----CharacterGlow-----
+
+function B1(on)
+gg.setRanges(gg.REGION_VIDEO)
+gg.setVisible(false)
+gg.searchNumber("0.9",gg.TYPE_FLOAT)
+gg.setVisible(false)
+gg.getResults(1000)
+gg.editAll("100", gg.TYPE_FLOAT)
+gg.clearResults()
+  end
+
+function B2(off)
+gg.setRanges(gg.REGION_VIDEO)
+gg.setVisible(false)
+gg.searchNumber("100",gg.TYPE_FLOAT)
+gg.setVisible(false)
+gg.getResults(1000)
+gg.editAll("0.9", gg.TYPE_FLOAT)
+gg.clearResults()
+end
+
+-----FOVHack----&
+
+function C1(on)
+gg.setRanges(gg.REGION_CODE_APP)
+gg.setVisible(false)
+gg.searchNumber("0.3",gg.TYPE_FLOAT)
+gg.setVisible(false)
+gg.getResults(1000)
+gg.editAll("0.1", gg.TYPE_FLOAT)
+gg.clearResults()
+ end
+
+function C2(off)
+gg.setRanges(gg.REGION_CODE_APP)
+gg.setVisible(false)
+gg.searchNumber("0.1",gg.TYPE_FLOAT)
+gg.setVisible(false)
+gg.getResults(1000)
+gg.editAll("0.3", gg.TYPE_FLOAT)
+gg.clearResults()
+end
+
+-----BigButterflies-----
+
+function D1()
+  gg.alert('Perminent Until Game Is Restarted')
+  gg.setRanges(gg.REGION_CODE_APP)
+  gg.setVisible(false)
+  gg.searchNumber("0.12",gg.TYPE_FLOAT)
+  gg.getResults(200)
+  gg.editAll("1",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+function D2()
+  end
+
+-------Teleport-----
+
+function E1(on)
+  gg.setRanges(gg.REGION_CODE_APP)
+  gg.setVisible(false)
+  gg.searchNumber("0.15",gg.TYPE_FLOAT)
+  gg.getResults(1000)
+  gg.editAll("-15",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+function E2(off)
+  gg.setRanges(gg.REGION_CODE_APP)
+  gg.setVisible(false)
+  gg.searchNumber("-15",gg.TYPE_FLOAT)
+  gg.getResults(1000)
+  gg.editAll("0.15",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+-------NightMode-----
+
+function F1(on)
+  gg.setRanges(gg.REGION_C_ALLOC)
+  gg.setVisible(false)
+  gg.searchNumber("0.1",gg.TYPE_FLOAT)
+  gg.getResults(500)
+  gg.editAll("550",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+function F2(off)
+  gg.setRanges(gg.REGION_C_ALLOC)
+  gg.setVisible(false)
+  gg.searchNumber("550",gg.TYPE_FLOAT)
+  gg.getResults(500)
+  gg.editAll("0.1",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+-----LandSwim-----
+
+function G1(on)
+  gg.setRanges(gg.REGION_CODE_APP)
+  gg.setVisible(false)
+  gg.searchNumber("0.60",gg.TYPE_FLOAT)
+  gg.getResults(1000)
+  gg.editAll("-0.1",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+function G2(off)
+gg.setRanges(gg.REGION_CODE_APP)
+  gg.setVisible(false)
+  gg.searchNumber("-0.1",gg.TYPE_FLOAT)
+  gg.getResults(100)
+  gg.editAll("0.60",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+-------InfiniteSlide-----
+
+function H1(on)
+  gg.setRanges(gg.REGION_CODE_APP)
+  gg.setVisible(false)
+  gg.searchNumber("0.80",gg.TYPE_FLOAT)
+  gg.getResults(100)
+  gg.editAll("-0.75",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+function H2(off)
+  gg.setRanges(gg.REGION_CODE_APP)
+  gg.setVisible(false)
+  gg.searchNumber("-0.75",gg.TYPE_FLOAT)
+  gg.getResults(1000)
+  gg.editAll("0.80",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+-----InfiniteFly-----
+
+function I1(on)
+  gg.setRanges(gg.REGION_CODE_APP)
+  gg.setVisible(false)
+  gg.searchNumber("0.80",gg.TYPE_FLOAT)
+  gg.getResults(1000)
+  gg.editAll("0.95",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+function I2(off)
+  gg.setRanges(gg.REGION_CODE_APP)
+  gg.setVisible(false)
+  gg.searchNumber("0.95",gg.TYPE_FLOAT)
+  gg.getResults(1000)
+  gg.editAll("0.80",gg.TYPE_FLOAT)
+  gg.clearResults()
+  end
+
+
+function EXIT()
+print("Subscribe To My YouTube Channel Synthiill Gaming")
+os.exit()
+end
+
+
+while(true)do
+if gg.isVisible(true) then
+XGCK=1
+gg.setVisible(false)
+end
+gg.clearResults()
+if XGCK==1 then
+Main()
+end
+end  
+
+
